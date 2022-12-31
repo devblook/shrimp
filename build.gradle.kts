@@ -15,6 +15,7 @@ dependencies{
     compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
     implementation("net.kyori:adventure-text-minimessage:4.12.0")
     implementation("team.unnamed:inject:1.0.1")
+    implementation("me.fixeddev:commandflow-bukkit:0.5.2")
 }
 java{
     toolchain{

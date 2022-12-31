@@ -1,19 +1,32 @@
 package team.devblook.shrimp;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import team.devblook.shrimp.module.PluginModule;
+import team.devblook.shrimp.service.Service;
+import team.unnamed.inject.Injector;
+
+import javax.inject.Inject;
+import java.util.Set;
 
 public class Shrimp extends JavaPlugin {
+    @Inject
+    private Set<Service> services;
+    @Override
+    public void onLoad() {
+        Injector injector = Injector.create(new PluginModule(this));
+        injector.injectMembers(this);
+    }
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
-
+        services.forEach(Service::start);
+        getLogger().info("<yellow>Shrimp has been enabled!");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        services.forEach(Service::stop);
+        getLogger().info("<red>Shrimp has been disabled!");
     }
 }
 

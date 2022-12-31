@@ -1,4 +1,4 @@
 name: Shrimp
-main: team.devblook.shrimp.Shrimp;
+main: team.devblook.shrimp.Shrimp
 version: 1.0
 api-version: 1.19
