@@ -31,12 +31,12 @@ public class MainCommand implements CommandClass {
     @Command(names = "list", permission = "shrimp.list")
     public void getHomesListCommand(@Sender Player player) {
         FileConfiguration playersConfiguration = players.get();
-        Set<String> homes = playersConfiguration.getConfigurationSection(player.getName()).getKeys(false);
+        Set<String> homes = playersConfiguration.getConfigurationSection(player.getName() + ".home").getKeys(false);
         Component component = Component.text("Homes: ").color(NamedTextColor.GOLD);
         for (String home : homes) {
             Component homeComponent = Component
-                    .text(home)
-                    .color(NamedTextColor.GOLD)
+                    .text(home + "  ")
+                    .color(NamedTextColor.AQUA)
                     .decoration(TextDecoration.ITALIC, false)
                     .hoverEvent(HoverEvent.showText(Component.text("Click to teleport to " + home)
                     .color(NamedTextColor.GOLD)))
