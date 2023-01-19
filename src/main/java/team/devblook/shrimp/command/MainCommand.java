@@ -2,7 +2,6 @@ package team.devblook.shrimp.command;
 
 import me.fixeddev.commandflow.annotated.CommandClass;
 import me.fixeddev.commandflow.annotated.annotation.Command;
-import me.fixeddev.commandflow.annotated.annotation.OptArg;
 import me.fixeddev.commandflow.bukkit.annotation.Sender;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;

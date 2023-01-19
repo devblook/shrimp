@@ -3,11 +3,9 @@ package team.devblook.shrimp;
 import org.bukkit.plugin.java.JavaPlugin;
 import team.devblook.shrimp.module.PluginModule;
 import team.devblook.shrimp.service.Service;
-import team.devblook.shrimp.util.BukkitConfiguration;
 import team.unnamed.inject.Injector;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.Set;
 
 public class Shrimp extends JavaPlugin {
@@ -23,13 +21,11 @@ public class Shrimp extends JavaPlugin {
     @Override
     public void onEnable() {
         services.forEach(Service::start);
-        getLogger().info("<yellow>Shrimp has been enabled!");
     }
 
     @Override
     public void onDisable() {
         services.forEach(Service::stop);
-        getLogger().info("<red>Shrimp has been disabled!");
     }
 }
 

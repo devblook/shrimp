@@ -5,7 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class PlayerData {
-    public void setDataPlayer(Player player, FileConfiguration fileConfiguration,String nameHome){
+    public void setDataPlayer(Player player, FileConfiguration fileConfiguration, String nameHome) {
         Location locationPlayer = player.getLocation();
         double x = locationPlayer.getX();
         double y = locationPlayer.getY();
@@ -19,6 +19,5 @@ public class PlayerData {
         fileConfiguration.set(player.getName() + ".home." + nameHome + ".yaw", yaw);
         fileConfiguration.set(player.getName() + ".home." + nameHome + ".pitch", pitch);
         fileConfiguration.set(player.getName() + ".home." + nameHome + ".world", world);
-
     }
 }

@@ -8,10 +8,8 @@ import me.fixeddev.commandflow.annotated.part.PartInjector;
 import me.fixeddev.commandflow.annotated.part.defaults.DefaultsModule;
 import me.fixeddev.commandflow.bukkit.BukkitCommandManager;
 import me.fixeddev.commandflow.bukkit.factory.BukkitModule;
-import team.devblook.shrimp.util.BukkitConfiguration;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.Set;
 
 public class CommandService implements Service {
