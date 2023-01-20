@@ -5,6 +5,7 @@ import team.devblook.shrimp.service.CommandService;
 import team.devblook.shrimp.service.ConfigurationService;
 import team.devblook.shrimp.service.Service;
 import team.devblook.shrimp.util.BukkitConfiguration;
+import team.devblook.shrimp.util.HomeData;
 import team.unnamed.inject.AbstractModule;
 
 public class PluginModule extends AbstractModule {
@@ -22,6 +23,7 @@ public class PluginModule extends AbstractModule {
         bind(BukkitConfiguration.class).toInstance(new BukkitConfiguration(plugin,"settings"));
         bind(BukkitConfiguration.class).named("players").toInstance(new BukkitConfiguration(plugin,"players"));
         bind(BukkitConfiguration.class).named("messages").toInstance(new BukkitConfiguration(plugin,"messages"));
+        bind(HomeData.class);
         install(new CommandModule());
     }
 }

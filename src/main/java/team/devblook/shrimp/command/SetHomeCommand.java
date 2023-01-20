@@ -8,7 +8,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import team.devblook.shrimp.util.BukkitConfiguration;
-import team.devblook.shrimp.util.PlayerData;
+import team.devblook.shrimp.util.HomeData;
 import team.unnamed.inject.InjectAll;
 
 import javax.inject.Named;
@@ -24,19 +24,19 @@ public class SetHomeCommand implements CommandClass {
     private BukkitConfiguration settings;
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
 
+    private HomeData homeData;
+
     @Command(names = "")
     public void homeCommandEmpty(@Sender Player player, @OptArg("") String nameHome) {
         FileConfiguration playerConfig = players.get();
         FileConfiguration settingsConfig = settings.get();
-        PlayerData playerData = new PlayerData();
         if (nameHome.isEmpty() || nameHome.equals(" ")) {
             player.sendMessage("You must put a name to your home");
             return;
         }
         Set<String> keysPlayer = playerConfig.getKeys(false);
         if (keysPlayer.isEmpty()) {
-            playerData.setDataPlayer(player, playerConfig, nameHome);
-            players.save();
+            homeData.setDataPlayer(player,playerConfig,nameHome);
             player.sendMessage("You have created your first home");
             return;
         }
@@ -52,9 +52,8 @@ public class SetHomeCommand implements CommandClass {
                     return;
                 }
 
-                playerData.setDataPlayer(player, playerConfig, nameHome);
+                homeData.setDataPlayer(player,playerConfig,nameHome);
                 player.sendMessage("You have created a home with the name " + nameHome);
-                players.save();
                 return;
             }
         });
