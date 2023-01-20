@@ -10,6 +10,8 @@ import javax.inject.Named;
 public class ConfigurationService implements Service {
 
     private Shrimp plugin;
+    @Named("messages")
+    private BukkitConfiguration messages;
 
     @Named("players")
     private BukkitConfiguration players;
@@ -25,6 +27,7 @@ public class ConfigurationService implements Service {
     public void stop() {
         players.save();
         settings.save();
+        messages.save();
         plugin.getLogger().info("Configuration saved!");
     }
 }
