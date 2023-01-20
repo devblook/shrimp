@@ -21,12 +21,14 @@ import java.util.Set;
 @InjectAll
 @Command(names = {"shrimp"})
 public class MainCommand implements CommandClass {
-
+    @Named("messages")
+    private BukkitConfiguration messages;
     @Named("players")
     private BukkitConfiguration players;
 
     private BukkitConfiguration settings;
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
+
     @Command(names = "list", permission = "shrimp.list")
     public void getHomesListCommand(@Sender Player player) {
         FileConfiguration playersConfiguration = players.get();
@@ -38,7 +40,7 @@ public class MainCommand implements CommandClass {
                     .color(NamedTextColor.AQUA)
                     .decoration(TextDecoration.ITALIC, false)
                     .hoverEvent(HoverEvent.showText(Component.text("Click to teleport to " + home)
-                    .color(NamedTextColor.GOLD)))
+                            .color(NamedTextColor.GOLD)))
                     .clickEvent(ClickEvent.runCommand("/shrimp:home " + home));
             component = component.append(homeComponent);
 
@@ -48,11 +50,18 @@ public class MainCommand implements CommandClass {
 
 
     }
+
     @Command(names = "reload", permission = "shrimp.op")
     public void reloadCommand(@Sender Player player) {
         player.sendMessage("?");
         players.reload();
         settings.reload();
+        messages.reload();
         player.sendMessage("Reloaded");
+    }
+
+    @Command(names = "help", permission = "shrimp.help")
+    public void helpCommand(@Sender Player player) {
+        String text = messages.get().getString("test");
     }
 }

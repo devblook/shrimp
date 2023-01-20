@@ -24,7 +24,8 @@ import java.util.Set;
 @Command(names = {"home"})
 public class HomeCommand implements CommandClass {
 
-
+    @Named("messages")
+    private BukkitConfiguration messages;
     @Named("players")
     private BukkitConfiguration players;
 
@@ -34,6 +35,8 @@ public class HomeCommand implements CommandClass {
     @Command(names = "")
     public void mainCommand(@Sender Player player, @OptArg String nameHome) {
         FileConfiguration playersConfiguration = players.get();
+        FileConfiguration settingsConfiguration = settings.get();
+        String emptyHomes = messages.get().getString("dont-have-homes");
         Set<String> keys = playersConfiguration.getConfigurationSection(player.getName() + ".home").getKeys(false);
         if (keys.isEmpty() || keys == null) {
             Audience audience = (Audience) player;
@@ -49,9 +52,15 @@ public class HomeCommand implements CommandClass {
                     double z = playersConfiguration.getDouble(player.getName() + ".home." + homesKey + ".z");
                     float yaw = (float) playersConfiguration.getDouble(player.getName() + ".home." + homesKey + ".yaw");
                     float pitch = (float) playersConfiguration.getDouble(player.getName() + ".home." + homesKey + ".pitch");
-                    Location location = new Location(world, x, y, z, yaw, pitch);
-                    PaperLib.teleportAsync(player, location);
-                    return;
+                    if (settingsConfiguration.getBoolean("teleport-per-world")) {
+                        Location location = new Location(world, x, y, z, yaw, pitch);
+                        PaperLib.teleportAsync(player, location);
+                        return;
+                    }
+                    if (!player.getWorld().equals(world)) {
+                        player.sendMessage("You can't teleport to this home because you are in another world");
+                        return;
+                    }
                 }
             }
             return;
