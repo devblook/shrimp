@@ -32,6 +32,11 @@ public class MainCommand implements CommandClass {
     @Command(names = "list", permission = "shrimp.list")
     public void getHomesListCommand(@Sender Player player) {
         FileConfiguration playersConfiguration = players.get();
+        Set<String> keys = playersConfiguration.getKeys(false);
+        if (!keys.contains(player.getName())) {
+            player.sendMessage("You don't have any homes");
+            return;
+        }
         Set<String> homes = playersConfiguration.getConfigurationSection(player.getName() + ".home").getKeys(false);
         Component component = Component.text("Homes: ").color(NamedTextColor.GOLD);
         for (String home : homes) {
