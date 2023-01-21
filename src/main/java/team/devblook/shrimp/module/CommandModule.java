@@ -1,6 +1,7 @@
 package team.devblook.shrimp.module;
 
 import me.fixeddev.commandflow.annotated.CommandClass;
+import team.devblook.shrimp.command.DeleteHomeCommand;
 import team.devblook.shrimp.command.HomeCommand;
 import team.devblook.shrimp.command.MainCommand;
 import team.devblook.shrimp.command.SetHomeCommand;
@@ -13,7 +14,8 @@ public class CommandModule extends AbstractModule {
         multibind(CommandClass.class).asSet()
                 .to(HomeCommand.class)
                 .to(SetHomeCommand.class)
-                .to(MainCommand.class);
+                .to(MainCommand.class)
+                .to(DeleteHomeCommand.class);
     }
 }
 
