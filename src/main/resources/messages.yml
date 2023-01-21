@@ -1,0 +1,4 @@
+dont-have-homes: '&cYou do not have any homes set!'
+teleport-per-world: "&cYou can only teleport to homes in the same world!"
+home-doesnt-exist: "You don't have any home with this name!"
+home-teleported: "&aYou have been teleported to your home!"
