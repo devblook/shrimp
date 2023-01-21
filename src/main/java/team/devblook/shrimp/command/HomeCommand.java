@@ -5,9 +5,6 @@ import me.fixeddev.commandflow.annotated.CommandClass;
 import me.fixeddev.commandflow.annotated.annotation.Command;
 import me.fixeddev.commandflow.annotated.annotation.OptArg;
 import me.fixeddev.commandflow.bukkit.annotation.Sender;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -36,36 +33,47 @@ public class HomeCommand implements CommandClass {
     public void mainCommand(@Sender Player player, @OptArg String nameHome) {
         FileConfiguration playersConfiguration = players.get();
         FileConfiguration settingsConfiguration = settings.get();
-        String emptyHomes = messages.get().getString("dont-have-homes");
-        Set<String> keys = playersConfiguration.getConfigurationSection(player.getName() + ".home").getKeys(false);
-        if (keys.isEmpty() || keys == null) {
-            Audience audience = (Audience) player;
-            audience.sendMessage(Component.text("You don't have any home").color(NamedTextColor.RED));
+        FileConfiguration messagesConfiguration = messages.get();
+        String HOMES_EMPTY = messagesConfiguration.getString("dont-have-homes");
+        String HOME_ANOTHER_WORLD = messagesConfiguration.getString("teleport-per-world");
+        String HOME_NOT_FOUND = messagesConfiguration.getString("home-doesnt-exist");
+        String HOME_TELEPORTED = messagesConfiguration.getString("home-teleported");
+        Set<String> keys = playersConfiguration.getKeys(false);
+        boolean crossWorld = settingsConfiguration.getBoolean("teleport-per-world");
+        if (!keys.contains(player.getName())) {
+            player.sendMessage(HOMES_EMPTY);
             return;
         }
-        if (keys.stream().anyMatch(key -> key.equalsIgnoreCase(nameHome))) {
-            for (String homesKey : keys) {
+        String playerPath = player.getName() + ".home";
+        Set<String> homes = playersConfiguration.getConfigurationSection(playerPath).getKeys(false);
+        if (homes.stream().anyMatch(key -> key.equalsIgnoreCase(nameHome))) {
+            for (String homesKey : homes) {
                 if (homesKey.equalsIgnoreCase(nameHome)) {
-                    World world = Bukkit.getWorld(playersConfiguration.getString(player.getName() + ".home." + homesKey + ".world"));
                     double x = playersConfiguration.getDouble(player.getName() + ".home." + homesKey + ".x");
                     double y = playersConfiguration.getDouble(player.getName() + ".home." + homesKey + ".y");
                     double z = playersConfiguration.getDouble(player.getName() + ".home." + homesKey + ".z");
                     float yaw = (float) playersConfiguration.getDouble(player.getName() + ".home." + homesKey + ".yaw");
                     float pitch = (float) playersConfiguration.getDouble(player.getName() + ".home." + homesKey + ".pitch");
-                    if (settingsConfiguration.getBoolean("teleport-per-world")) {
+                    World world = Bukkit.getWorld(playersConfiguration.getString(player.getName() + ".home." + homesKey + ".world"));
+                    if (crossWorld) {
                         Location location = new Location(world, x, y, z, yaw, pitch);
                         PaperLib.teleportAsync(player, location);
+                        player.sendMessage(HOME_TELEPORTED + homesKey + "!");
                         return;
                     }
                     if (!player.getWorld().equals(world)) {
-                        player.sendMessage("You can't teleport to this home because you are in another world");
+                        player.sendMessage(HOME_ANOTHER_WORLD);
                         return;
                     }
+                    PaperLib.teleportAsync(player, new Location(world, x, y, z, yaw, pitch));
+                    player.sendMessage(HOME_TELEPORTED + homesKey + "!");
+                    return;
                 }
+
             }
             return;
         }
-        player.sendMessage("You don't have any home with this name");
+        player.sendMessage(HOME_NOT_FOUND);
         return;
 
 
