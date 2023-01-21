@@ -1,8 +1,9 @@
-package team.devblook.shrimp.util;
+package team.devblook.shrimp.data;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import team.devblook.shrimp.util.BukkitConfiguration;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,7 +11,8 @@ import javax.inject.Named;
 public class HomeData {
     @Inject
     @Named("players")
-    private  BukkitConfiguration players;
+    private BukkitConfiguration players;
+
     public void setDataPlayer(Player player, FileConfiguration fileConfiguration, String nameHome) {
         Location location = player.getLocation();
         fileConfiguration.set(player.getName() + ".home." + nameHome + ".x", location.getX());
