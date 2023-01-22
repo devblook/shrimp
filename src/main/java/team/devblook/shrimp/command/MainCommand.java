@@ -9,7 +9,6 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import team.devblook.shrimp.util.BukkitConfiguration;
@@ -27,7 +26,7 @@ public class MainCommand implements CommandClass {
     private BukkitConfiguration players;
 
     private BukkitConfiguration settings;
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
+
 
     @Command(names = "list", permission = "shrimp.list")
     public void getHomesListCommand(@Sender Player player) {
@@ -62,11 +61,11 @@ public class MainCommand implements CommandClass {
         players.reload();
         settings.reload();
         messages.reload();
-        player.sendMessage("Reloaded");
+        player.sendMessage("Reloaded...");
     }
 
     @Command(names = "help", permission = "shrimp.help")
     public void helpCommand(@Sender Player player) {
-        String text = messages.get().getString("test");
+        //TODO: help command
     }
 }
