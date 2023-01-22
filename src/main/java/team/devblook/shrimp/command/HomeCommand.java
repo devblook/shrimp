@@ -5,7 +5,6 @@ import me.fixeddev.commandflow.annotated.CommandClass;
 import me.fixeddev.commandflow.annotated.annotation.Command;
 import me.fixeddev.commandflow.annotated.annotation.OptArg;
 import me.fixeddev.commandflow.bukkit.annotation.Sender;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -27,7 +26,6 @@ public class HomeCommand implements CommandClass {
     private BukkitConfiguration players;
 
     private BukkitConfiguration settings;
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
 
     @Command(names = "")
     public void mainCommand(@Sender Player player, @OptArg String nameHome) {
