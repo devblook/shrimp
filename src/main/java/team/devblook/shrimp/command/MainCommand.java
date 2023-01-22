@@ -20,13 +20,12 @@ import java.util.Set;
 @InjectAll
 @Command(names = {"shrimp"})
 public class MainCommand implements CommandClass {
+
+    private BukkitConfiguration settings;
     @Named("messages")
     private BukkitConfiguration messages;
     @Named("players")
     private BukkitConfiguration players;
-
-    private BukkitConfiguration settings;
-
 
     @Command(names = "list", permission = "shrimp.list")
     public void getHomesListCommand(@Sender Player player) {
