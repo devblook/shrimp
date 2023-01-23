@@ -1,10 +1,9 @@
-package team.devblook.shrimp.listener;
+package team.devblook.shrimp.service;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import team.devblook.shrimp.Shrimp;
-import team.devblook.shrimp.service.Service;
 
 import javax.inject.Inject;
 import java.util.Set;

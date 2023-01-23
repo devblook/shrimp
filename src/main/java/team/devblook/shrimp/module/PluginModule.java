@@ -1,8 +1,7 @@
 package team.devblook.shrimp.module;
 
 import team.devblook.shrimp.Shrimp;
-import team.devblook.shrimp.listener.ListenerModule;
-import team.devblook.shrimp.listener.ListenerService;
+import team.devblook.shrimp.service.ListenerService;
 import team.devblook.shrimp.service.CommandService;
 import team.devblook.shrimp.service.ConfigurationService;
 import team.devblook.shrimp.service.Service;
@@ -11,7 +10,7 @@ import team.devblook.shrimp.util.BukkitConfiguration;
 import team.unnamed.inject.AbstractModule;
 
 public class PluginModule extends AbstractModule {
-    private Shrimp plugin;
+    private final Shrimp plugin;
 
     public PluginModule(Shrimp plugin) {
         this.plugin = plugin;
