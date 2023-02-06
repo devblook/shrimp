@@ -13,12 +13,11 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT")
+    compileOnly("org.mongodb:mongodb-driver-sync:4.8.1")
     implementation("com.github.cryptomorin:XSeries:9.2.0") {
         isTransitive = false
     }
-    implementation("org.mongodb:mongodb-driver-sync:4.8.1")
     implementation("team.unnamed:inject:1.0.1")
-    implementation("dev.triumphteam:triumph-gui:3.1.2")
     implementation("me.fixeddev:commandflow-bukkit:0.5.2")
 }
 
