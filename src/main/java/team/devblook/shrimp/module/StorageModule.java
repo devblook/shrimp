@@ -1,5 +1,8 @@
-package team.devblook.shrimp.storage;
+package team.devblook.shrimp.module;
 
+import team.devblook.shrimp.storage.Storage;
+import team.devblook.shrimp.storage.cloud.MongoStorage;
+import team.devblook.shrimp.storage.cloud.MySQLStorage;
 import team.devblook.shrimp.storage.local.JsonStorage;
 import team.devblook.shrimp.util.BukkitConfiguration;
 import team.unnamed.inject.AbstractModule;
@@ -19,17 +22,10 @@ public class StorageModule extends AbstractModule {
         String typeStorage = settings.get().getString("storage.type", "JSON").toUpperCase(Locale.ROOT);
 
         switch (typeStorage) {
-            case "JSON":
-                bind(Storage.class).to(JsonStorage.class);
-                break;
-            case "MYSQL":
-                // TODO: Implement MySQL please :3
-                break;
-            case "MONGODB":
-                // TODO: Implement MongoDB please :3
-                break;
-            default:
-                throw new IllegalArgumentException("Storage type not found!");
+            case "JSON" -> bind(Storage.class).to(JsonStorage.class);
+            case "MYSQL" -> bind(Storage.class).to(MySQLStorage.class);
+            case "MONGODB" -> bind(Storage.class).to(MongoStorage.class);
+            default -> throw new IllegalArgumentException("Storage type not found!");
         }
     }
 }
