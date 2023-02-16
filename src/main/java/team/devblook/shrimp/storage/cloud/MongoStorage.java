@@ -2,6 +2,9 @@ package team.devblook.shrimp.storage.cloud;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import team.devblook.shrimp.Shrimp;
 import team.devblook.shrimp.storage.Storage;
 import team.devblook.shrimp.user.User;
@@ -24,6 +27,7 @@ public class MongoStorage implements Storage {
     private final String collection;
     private MongoClient mongoClient;
     private final Shrimp plugin;
+
     @Inject
     public MongoStorage(BukkitConfiguration settings, Shrimp plugin) {
         this.plugin = plugin;
@@ -34,6 +38,7 @@ public class MongoStorage implements Storage {
         this.port = settings.get().getString("MONGODB.port");
         this.password = settings.get().getString("MONGODB.password");
     }
+
     @Override
     public void connect() {
         CompletableFuture.runAsync(() -> {
@@ -51,11 +56,17 @@ public class MongoStorage implements Storage {
 
     @Override
     public void save(User user) {
+        MongoDatabase mongoDatabase = mongoClient.getDatabase(this.database);
+        MongoCollection<Document> collection = mongoDatabase.getCollection(this.collection);
+        collection.insertOne(new Document("id", user.id()).append("homes", user.homes()));
 
     }
 
     @Override
     public User find(String id) {
-        return null;
+        MongoDatabase mongoDatabase = mongoClient.getDatabase(this.database);
+        MongoCollection<Document> collection = mongoDatabase.getCollection(this.collection);
+        Document document = collection.find(new Document("id", id)).first();
+        return new User(id);
     }
 }

@@ -33,7 +33,7 @@ public class PluginModule extends AbstractModule {
                 .toInstance(new BukkitConfiguration(plugin, "messages"));
 
         install(new CommandModule());
-        install(new StorageModule(settings));
+        install(new StorageModule(settings,plugin));
         install(new ReferenceModule());
         install(new ListenerModule());
     }

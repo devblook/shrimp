@@ -5,10 +5,7 @@ import team.devblook.shrimp.user.User;
 
 public class MySQLStorage implements Storage {
 
-    @Override
-    public void connect() {
-        Storage.super.connect();
-    }
+
 
     @Override
     public void save(User user) {
