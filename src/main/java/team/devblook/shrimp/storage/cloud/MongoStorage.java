@@ -4,6 +4,8 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bson.Document;
 import team.devblook.shrimp.Shrimp;
 import team.devblook.shrimp.storage.Storage;
@@ -44,10 +46,10 @@ public class MongoStorage implements Storage {
         CompletableFuture.runAsync(() -> {
             try {
                 this.mongoClient = MongoClients.create("mongodb://" + user + ":" + password + "@" + host + ":" + port + "/" + database);
-                plugin.getLogger().info("MongoDB connected");
+                plugin.getComponentLogger().info(Component.text("MongoDB connected").color(NamedTextColor.GREEN));
 
             } catch (Exception e) {
-                plugin.getLogger().info("MongoDB connection failed");
+                plugin.getComponentLogger().info(Component.text("MongoDB connection failed").color(NamedTextColor.RED));
                 e.printStackTrace();
             }
 
