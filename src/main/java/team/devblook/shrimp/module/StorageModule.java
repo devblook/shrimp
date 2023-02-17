@@ -23,7 +23,7 @@ public class StorageModule extends AbstractModule {
 
     @Override
     public void configure() {
-        String typeStorage = settings.get().getString("storage.type", "JSON").toUpperCase(Locale.ROOT);
+        String typeStorage = settings.get().getString("storage-type", "JSON").toUpperCase(Locale.ROOT);
         switch (typeStorage) {
             case "JSON" -> bind(Storage.class).to(JsonStorage.class);
             case "MYSQL" -> bind(Storage.class).to(MySQLStorage.class);
