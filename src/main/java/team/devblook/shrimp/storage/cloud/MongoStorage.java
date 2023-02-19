@@ -1,5 +1,6 @@
 package team.devblook.shrimp.storage.cloud;
 
+import com.google.gson.Gson;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -45,7 +46,7 @@ public class MongoStorage implements Storage {
     public void connect() {
         CompletableFuture.runAsync(() -> {
             try {
-                this.mongoClient = MongoClients.create("mongodb://" + user + ":" + password + "@" + host + ":" + port + "/" + database);
+                this.mongoClient = MongoClients.create("mongodb+srv://" + user + ":" + password + "@" + host);
                 plugin.getComponentLogger().info(Component.text("MongoDB connected").color(NamedTextColor.GREEN));
 
             } catch (Exception e) {
@@ -60,8 +61,7 @@ public class MongoStorage implements Storage {
     public void save(User user) {
         MongoDatabase mongoDatabase = mongoClient.getDatabase(this.database);
         MongoCollection<Document> collection = mongoDatabase.getCollection(this.collection);
-        collection.insertOne(new Document("id", user.id()).append("homes", user.homes()));
-
+        collection.insertOne(Document.parse(new Gson().toJson(user)));
     }
 
     @Override
@@ -69,6 +69,10 @@ public class MongoStorage implements Storage {
         MongoDatabase mongoDatabase = mongoClient.getDatabase(this.database);
         MongoCollection<Document> collection = mongoDatabase.getCollection(this.collection);
         Document document = collection.find(new Document("id", id)).first();
-        return new User(id);
+        if (document != null) {
+            return new Gson().fromJson(document.toJson(), User.class);
+        } else {
+            return null;
+        }
     }
 }

@@ -31,6 +31,7 @@ public class MySQLStorage implements Storage {
         this.port = settings.get().getInt("MYSQL.port");
         this.password = settings.get().getString("MYSQL.password");
     }
+
     @Override
     public void connect() {
         CompletableFuture.runAsync(() -> {
@@ -48,16 +49,16 @@ public class MySQLStorage implements Storage {
     @Override
     public void save(User user) {
         try {
-            String sql = "INSERT INTO " + table + " (id, homes) VALUES (?, ?)";
+            String sql = "INSERT INTO " + table + " (id, homes) VALUES (?, ?) ON DUPLICATE KEY UPDATE homes=?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, user.id());
             statement.setObject(2, user.homes());
+            statement.setObject(3, user.homes());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public User find(String id) {
@@ -67,6 +68,7 @@ public class MySQLStorage implements Storage {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
+                Object homes = resultSet.getObject("homes");
                 return new User(id);
             }
         } catch (SQLException e) {
