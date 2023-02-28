@@ -27,7 +27,7 @@ public class StorageModule extends AbstractModule {
         switch (typeStorage) {
             case "JSON" -> bind(Storage.class).to(JsonStorage.class);
             case "MYSQL" -> bind(Storage.class).to(MySQLStorage.class);
-            case "MONGODB" -> bind(Storage.class).to(MongoStorage.class);
+            case "MONGODB" -> bind(Storage.class).to(MongoStorage.class).singleton();
             default -> throw new IllegalArgumentException("Storage type not found!");
         }
     }
