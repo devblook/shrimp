@@ -34,12 +34,12 @@ public class MongoStorage implements Storage {
     @Inject
     public MongoStorage(BukkitConfiguration settings, Shrimp plugin) {
         this.plugin = plugin;
-        this.collection = settings.get().getString("MONGODB.collection");
-        this.database = settings.get().getString("MONGODB.database");
-        this.user = settings.get().getString("MONGODB.user");
         this.host = settings.get().getString("MONGODB.host");
         this.port = settings.get().getString("MONGODB.port");
+        this.database = settings.get().getString("MONGODB.database");
+        this.user = settings.get().getString("MONGODB.username");
         this.password = settings.get().getString("MONGODB.password");
+        this.collection = settings.get().getString("MONGODB.collection");
     }
 
     @Override
@@ -48,6 +48,7 @@ public class MongoStorage implements Storage {
             try {
                 this.mongoClient = MongoClients.create("mongodb+srv://" + user + ":" + password + "@" + host);
                 plugin.getComponentLogger().info(Component.text("MongoDB connected").color(NamedTextColor.GREEN));
+                plugin.getLogger().info("Mongo is" + mongoClient);
 
             } catch (Exception e) {
                 plugin.getComponentLogger().info(Component.text("MongoDB connection failed").color(NamedTextColor.RED));
@@ -59,20 +60,25 @@ public class MongoStorage implements Storage {
 
     @Override
     public void save(User user) {
-        MongoDatabase mongoDatabase = mongoClient.getDatabase(this.database);
-        MongoCollection<Document> collection = mongoDatabase.getCollection(this.collection);
-        collection.insertOne(Document.parse(new Gson().toJson(user)));
+        CompletableFuture.runAsync(() -> {
+            MongoDatabase mongoDatabase = this.mongoClient.getDatabase(this.database);
+            MongoCollection<Document> collection = mongoDatabase.getCollection(this.collection);
+            collection.insertOne(Document.parse(new Gson().toJson(user)));
+            plugin.getLogger().info("ez");
+        }).join();
+
     }
 
     @Override
     public User find(String id) {
-        MongoDatabase mongoDatabase = mongoClient.getDatabase(this.database);
-        MongoCollection<Document> collection = mongoDatabase.getCollection(this.collection);
-        Document document = collection.find(new Document("id", id)).first();
-        if (document != null) {
+        CompletableFuture.supplyAsync(() -> {
+            MongoDatabase mongoDatabase = this.mongoClient.getDatabase(this.database);
+            MongoCollection<Document> collection = mongoDatabase.getCollection(this.collection);
+            Document document = collection.find(new Document("id", id)).first();
+            plugin.getLogger().info("gg");
+            if (document == null) return null;
             return new Gson().fromJson(document.toJson(), User.class);
-        } else {
-            return null;
-        }
+        }).join();
+        return null;
     }
 }

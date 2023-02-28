@@ -47,7 +47,6 @@ public class HomeCommand implements CommandClass {
         }
 
         Location location = HomePosition.Positions.toLocation(home.position());
-
         player.teleportAsync(location);
         player.sendMessage(MINI_MESSAGE.deserialize("<green>You have been teleported to your home <gold>" + nameHome));
     }
