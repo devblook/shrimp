@@ -26,7 +26,7 @@ public class StorageModule extends AbstractModule {
         String typeStorage = settings.get().getString("storage-type", "JSON").toUpperCase(Locale.ROOT);
         switch (typeStorage) {
             case "JSON" -> bind(Storage.class).to(JsonStorage.class);
-            case "MYSQL" -> bind(Storage.class).to(MySQLStorage.class);
+            case "MYSQL" -> bind(Storage.class).to(MySQLStorage.class).singleton();
             case "MONGODB" -> bind(Storage.class).to(MongoStorage.class).singleton();
             default -> throw new IllegalArgumentException("Storage type not found!");
         }

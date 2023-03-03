@@ -20,13 +20,16 @@ public class MySQLStorage implements Storage {
     private final String table;
     private Connection connection;
     private final Shrimp plugin;
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private ResultSet resultSet;
 
     @Inject
     public MySQLStorage(BukkitConfiguration settings, Shrimp plugin) {
         this.plugin = plugin;
-        this.table = settings.get().getString("MYSQL.table");
+        this.table = settings.get().getString("MYSQL.table-prefix");
         this.database = settings.get().getString("MYSQL.database");
-        this.user = settings.get().getString("MYSQL.user");
+        this.user = settings.get().getString("MYSQL.username");
         this.host = settings.get().getString("MYSQL.host");
         this.port = settings.get().getInt("MYSQL.port");
         this.password = settings.get().getString("MYSQL.password");
@@ -36,10 +39,12 @@ public class MySQLStorage implements Storage {
     public void connect() {
         CompletableFuture.runAsync(() -> {
             try {
-                String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + database;
-                connection = DriverManager.getConnection(jdbcUrl, user, password);
+                connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false", user, password);
+
+                statement = connection.createStatement();
+                statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + table + " (id VARCHAR(36), homes VARCHAR(1000))");
                 plugin.getComponentLogger().info(Component.text("MySQL connected").color(NamedTextColor.GREEN));
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 plugin.getComponentLogger().info(Component.text("MySQL connection failed").color(NamedTextColor.RED));
                 e.printStackTrace();
             }
