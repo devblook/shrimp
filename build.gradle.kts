@@ -23,7 +23,7 @@ tasks {
     shadowJar {
         archiveBaseName.set("Shrimp")
         archiveVersion.set("${project.version}")
-        archiveClassifier.set("")
+        archiveClassifier.set("BETA")
 
         // Relocations
         relocate("me.fixeddev", "${rootProject.group}.shrimp.libs.commandflow")
