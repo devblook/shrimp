@@ -1,5 +1,6 @@
 package team.devblook.shrimp.storage.cloud;
 
+import com.google.gson.Gson;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import team.devblook.shrimp.Shrimp;
@@ -57,8 +58,10 @@ public class MySQLStorage implements Storage {
             String sql = "INSERT INTO " + table + " (id, homes) VALUES (?, ?) ON DUPLICATE KEY UPDATE homes=?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, user.id());
-            statement.setObject(2, user.homes());
-            statement.setObject(3, user.homes());
+            Gson gson = new Gson();
+            String homesJson = gson.toJson(user.homes());
+            statement.setObject(2, homesJson);
+            statement.setObject(3, homesJson);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
