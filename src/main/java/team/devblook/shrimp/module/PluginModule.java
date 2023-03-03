@@ -26,9 +26,6 @@ public class PluginModule extends AbstractModule {
         bind(BukkitConfiguration.class)
                 .toInstance(settings);
         bind(BukkitConfiguration.class)
-                .named("players")
-                .toInstance(new BukkitConfiguration(plugin, "players"));
-        bind(BukkitConfiguration.class)
                 .named("messages")
                 .toInstance(new BukkitConfiguration(plugin, "messages"));
 

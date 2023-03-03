@@ -4,7 +4,6 @@ import me.fixeddev.commandflow.annotated.CommandClass;
 import me.fixeddev.commandflow.annotated.annotation.Command;
 import me.fixeddev.commandflow.annotated.annotation.OptArg;
 import me.fixeddev.commandflow.bukkit.annotation.Sender;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import team.devblook.shrimp.user.User;
@@ -12,6 +11,7 @@ import team.devblook.shrimp.user.UserHandler;
 import team.devblook.shrimp.util.BukkitConfiguration;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 @Command(names = {"sethome"})
 public class SetHomeCommand implements CommandClass {
@@ -20,14 +20,17 @@ public class SetHomeCommand implements CommandClass {
     private BukkitConfiguration settings;
     @Inject
     private UserHandler userHandler;
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
+    @Inject
+    @Named("messages")
+    private BukkitConfiguration messages;
+
 
     @Command(names = "")
     public void homeCommandEmpty(@Sender Player player, @OptArg("") String nameHome) {
         FileConfiguration settingsConfig = settings.get();
 
         if (nameHome.isEmpty() || nameHome.equals(" ")) {
-            player.sendMessage("You must put a name to your home");
+            player.sendMessage(messages.getMessage("set-home-empty-name"));
             return;
         }
 
@@ -39,18 +42,18 @@ public class SetHomeCommand implements CommandClass {
         }
 
         if (user.sizeHomes() >= maxHomeAmount) {
-            player.sendMessage(MINI_MESSAGE.deserialize("<red>You have reached the limit of houses"));
+            player.sendMessage(messages.getMessage("limit-homes"));
             return;
         }
 
         if (user.hasHome(nameHome)) {
-            player.sendMessage(MINI_MESSAGE.deserialize("<red>You already have a home with that name"));
+            player.sendMessage(messages.getMessage("equals-homes-name"));
             return;
         }
 
         user.addHome(nameHome, player.getLocation());
         userHandler.update(user);
-        player.sendMessage(MINI_MESSAGE.deserialize("<green>You have created a home with the name <gold>" + nameHome));
+        player.sendMessage(messages.getMessage("create-home" + nameHome));
     }
 
 

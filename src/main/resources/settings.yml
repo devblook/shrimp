@@ -5,5 +5,19 @@ max-home-amount: 2
 
 # Set storage-type to JSON if you want to use JSON storage
 # Set storage-type to MONGODB if you want to use MongoDB storage
-# Set storage-type to MARIADB if you want to use MariaDB storage
-storage-type: JSON
+# Set storage-type to MYSQL if you want to use MYSQL storage
+storage-type: MYSQL
+MYSQL:
+  host: localhost
+  port: localhost
+  database: example
+  username: root
+  password: root
+  table-prefix: example
+MONGODB:
+  host: localhost
+  port: localhost
+  database: example
+  username: root
+  password: root
+  collection: example

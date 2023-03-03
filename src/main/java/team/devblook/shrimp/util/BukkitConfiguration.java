@@ -1,5 +1,7 @@
 package team.devblook.shrimp.util;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
+import java.util.List;
 
 public class BukkitConfiguration {
 
@@ -52,5 +55,8 @@ public class BukkitConfiguration {
         } catch (IOException e) {
             throw new UncheckedIOException("An error occurred while saving file '" + file.getName() + "'.", e);
         }
+    }
+    public Component getMessage(String path){
+        return MiniMessage.miniMessage().deserialize(config.getString(path));
     }
 }
