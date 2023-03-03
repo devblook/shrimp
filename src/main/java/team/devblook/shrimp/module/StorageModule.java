@@ -14,7 +14,6 @@ public class StorageModule extends AbstractModule {
 
     private final BukkitConfiguration settings;
     private final Shrimp plugin;
-    private Storage storage;
 
     public StorageModule(BukkitConfiguration settings, Shrimp plugin) {
         this.settings = settings;
