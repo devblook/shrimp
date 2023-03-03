@@ -11,15 +11,19 @@ import team.devblook.shrimp.home.Home;
 import team.devblook.shrimp.home.HomePosition;
 import team.devblook.shrimp.user.User;
 import team.devblook.shrimp.user.UserHandler;
+import team.devblook.shrimp.util.BukkitConfiguration;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 @Command(names = {"home"})
 public class HomeCommand implements CommandClass {
 
     @Inject
     private UserHandler userHandler;
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
+    @Inject
+    @Named("messages")
+    private BukkitConfiguration messages;
 
     @Command(names = "")
     public void mainCommand(@Sender Player player, @OptArg String nameHome) {
@@ -31,12 +35,12 @@ public class HomeCommand implements CommandClass {
         }
 
         if (nameHome.isEmpty()) {
-            player.sendMessage(MINI_MESSAGE.deserialize("<red>You must put a name to your home"));
+            player.sendMessage(messages.getMessage("empty-name-homes"));
             return;
         }
 
         if (!user.hasHome(nameHome)) {
-            player.sendMessage(MINI_MESSAGE.deserialize("<red>You don't have a home with that name"));
+            player.sendMessage(messages.getMessage("home-dont-exist"));
             return;
         }
 
@@ -47,9 +51,8 @@ public class HomeCommand implements CommandClass {
         }
 
         Location location = HomePosition.Positions.toLocation(home.position());
-
         player.teleportAsync(location);
-        player.sendMessage(MINI_MESSAGE.deserialize("<green>You have been teleported to your home <gold>" + nameHome));
+        player.sendMessage(messages.getMessage("teleport-to-home" + nameHome));
     }
 }
 

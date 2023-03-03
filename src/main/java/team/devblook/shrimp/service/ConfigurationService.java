@@ -13,8 +13,6 @@ public class ConfigurationService implements Service {
     @Named("messages")
     private BukkitConfiguration messages;
 
-    @Named("players")
-    private BukkitConfiguration players;
 
     private BukkitConfiguration settings;
 
@@ -25,7 +23,6 @@ public class ConfigurationService implements Service {
 
     @Override
     public void stop() {
-        players.save();
         settings.save();
         messages.save();
         plugin.getLogger().info("Configuration saved!");
