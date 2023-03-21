@@ -6,7 +6,7 @@ max-home-amount: 2
 # Set storage-type to JSON if you want to use JSON storage
 # Set storage-type to MONGODB if you want to use MongoDB storage
 # Set storage-type to MYSQL if you want to use MYSQL storage
-storage-type: MYSQL
+storage-type: JSON
 MYSQL:
   host: localhost
   port: localhost
