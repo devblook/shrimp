@@ -1,8 +1,11 @@
 package team.devblook.shrimp.command.home;
 
-import me.fixeddev.commandflow.annotated.CommandClass;
-import me.fixeddev.commandflow.annotated.annotation.Command;
-import me.fixeddev.commandflow.bukkit.annotation.Sender;
+import dev.triumphteam.cmd.bukkit.annotation.Permission;
+import dev.triumphteam.cmd.core.BaseCommand;
+import dev.triumphteam.cmd.core.annotation.Command;
+import dev.triumphteam.cmd.core.annotation.Default;
+import dev.triumphteam.cmd.core.annotation.Suggestion;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import team.devblook.shrimp.user.User;
 import team.devblook.shrimp.user.UserHandler;
@@ -11,33 +14,42 @@ import team.devblook.shrimp.util.BukkitConfiguration;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@Command(names = {"delhome", "deletehome"})
-public class DeleteHomeCommand implements CommandClass {
+@Command(
+value = "deletehome",
+alias = {"deletehome", "delhome", "dh"}
+)
+@Permission("shrimp.deletehome")
+public class DeleteHomeCommand extends BaseCommand {
 
-    @Inject
-    private UserHandler userHandler;
-    @Inject
-    @Named("messages")
-    private BukkitConfiguration messages;
+  @Inject
+  private UserHandler userHandler;
+  @Inject
+  @Named("messages")
+  private BukkitConfiguration messages;
 
 
-    @Command(names = "", permission = "shrimp.deletehome")
-    public void deleteHome(@Sender Player player, String nameHome) {
-        User user = userHandler.get(player.getUniqueId().toString());
+  @Default
+  public void deleteHome(Player player, @Suggestion("homes") String nameHome) {
+    User user = userHandler.get(player.getUniqueId().toString());
 
-        if (user == null) {
-            throw new IllegalStateException("User is null");
-        }
-
-        if (!user.hasHome(nameHome)) {
-            player.sendMessage(messages.getMessage("home-dont-exist"));
-            return;
-        }
-
-        user.removeHome(nameHome);
-        userHandler.update(user);
-        player.sendMessage(messages.getMessage("delete-home" + nameHome));
+    if (user == null) {
+      throw new IllegalStateException("User is null");
     }
+
+    if (!user.hasHome(nameHome)) {
+      Component component = messages.getMessage("home-dont-exist")
+      .replaceText(builder -> builder.match("%home%").replacement(nameHome));
+      player.sendMessage(component);
+
+      return;
+    }
+
+    user.removeHome(nameHome);
+    userHandler.update(user);
+    Component deteleComponent = messages.getMessage("delete-home")
+    .replaceText(builder -> builder.match("%home%").replacement(nameHome));
+    player.sendMessage(deteleComponent);
+  }
 
 
 }

@@ -1,36 +1,40 @@
 package team.devblook.shrimp.service;
 
-import me.fixeddev.commandflow.CommandManager;
-import me.fixeddev.commandflow.annotated.AnnotatedCommandTreeBuilder;
-import me.fixeddev.commandflow.annotated.AnnotatedCommandTreeBuilderImpl;
-import me.fixeddev.commandflow.annotated.CommandClass;
-import me.fixeddev.commandflow.annotated.part.PartInjector;
-import me.fixeddev.commandflow.annotated.part.defaults.DefaultsModule;
-import me.fixeddev.commandflow.bukkit.BukkitCommandManager;
-import me.fixeddev.commandflow.bukkit.factory.BukkitModule;
+
+import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
+import dev.triumphteam.cmd.core.BaseCommand;
+import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import team.devblook.shrimp.Shrimp;
+import team.devblook.shrimp.home.Home;
+import team.devblook.shrimp.user.UserHandler;
 
 import javax.inject.Inject;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CommandService implements Service {
-    @Inject
-    private Set<CommandClass> commands;
+  @Inject
+  private Set<BaseCommand> commands;
 
-    private CommandManager commandManager;
+  @Inject
+  private Shrimp plugin;
 
-    @Override
-    public void start() {
-        commandManager = new BukkitCommandManager("Shrimp");
-        PartInjector partInjector = PartInjector.create();
-        partInjector.install(new DefaultsModule());
-        partInjector.install(new BukkitModule());
-        AnnotatedCommandTreeBuilder builder = new AnnotatedCommandTreeBuilderImpl(partInjector);
-        commands.forEach(command -> commandManager.registerCommands(builder.fromClass(command)));
-    }
-    @Override
-    public void stop() {
-        commandManager.unregisterAll();
-    }
+  @Inject
+  private UserHandler userHandler;
+
+  @Override
+  public void start() {
+    BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(plugin);
+    manager.registerSuggestion(SuggestionKey.of("homes"), (context, input) ->
+    userHandler.get(Bukkit.getPlayerExact(context.getName()).getUniqueId().toString())
+    .homes()
+    .stream()
+    .map(Home::name)
+    .collect(Collectors.toList()));
+    commands.forEach(manager::registerCommand);
+  }
 
 
 }
