@@ -1,6 +1,3 @@
-teleport-per-world: true
-
-# TODO: Add support for multiple homes per roles from vault (if possible)
 max-home-amount: 2
 
 # Set storage-type to JSON if you want to use JSON storage

@@ -44,9 +44,9 @@ public class MySQLStorage implements Storage {
 
                 statement = connection.createStatement();
                 statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + table + " (id VARCHAR(36), homes VARCHAR(1000))");
-                plugin.getComponentLogger().info(Component.text("MySQL connected").color(NamedTextColor.GREEN));
+                plugin.getLogger().info("MySQL connected");
             } catch (Exception e) {
-                plugin.getComponentLogger().info(Component.text("MySQL connection failed").color(NamedTextColor.RED));
+                plugin.getLogger().info("MySQL connection failed");
                 e.printStackTrace();
             }
         }).join();
