@@ -45,7 +45,7 @@ bukkit {
     main = "team.devblook.shrimp.Shrimp"
     name = "Shrimp"
     version = project.version.toString()
-    apiVersion = "1.19"
+    apiVersion = "1.17"
     libraries = listOf("org.mongodb:mongodb-driver-sync:4.8.1")
     authors = listOf("Call4han")
 
