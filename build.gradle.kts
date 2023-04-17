@@ -10,14 +10,19 @@ repositories {
     maven("https://repo.unnamed.team/repository/unnamed-public/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.triumphteam.dev/snapshots/")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
     compileOnly("org.mongodb:mongodb-driver-sync:4.8.1")
     implementation("team.unnamed:inject:1.0.1")
     implementation("dev.triumphteam:triumph-cmd-bukkit:2.0.0-SNAPSHOT")
+    implementation("net.kyori:adventure-platform-bukkit:4.3.0")
+    implementation("io.papermc:paperlib:1.0.8")
+    implementation("net.kyori:adventure-text-minimessage:4.13.1")
 }
 
 tasks {
