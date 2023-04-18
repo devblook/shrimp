@@ -27,9 +27,8 @@ tasks {
         archiveClassifier.set("BETA")
 
         // Relocations
-        relocate("me.fixeddev", "${rootProject.group}.shrimp.libs.commandflow")
+        relocate("dev.triumphteam.cmd", "${rootProject.group}.shrimp.libs.command")
         relocate("team.unnamed.inject", "${rootProject.group}.shrimp.libs.inject")
-        relocate("org.mongodb.mongodb-driver-sync", "${rootProject.group}.shrimp.libs.commandflow")
     }
 
     java {
