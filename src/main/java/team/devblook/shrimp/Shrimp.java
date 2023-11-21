@@ -11,28 +11,27 @@ import java.util.Set;
 
 public class Shrimp extends JavaPlugin {
 
-    @Inject
-    private Set<Service> services;
-    @Inject
-    private UserHandler userHandler;
+  @Inject
+  private Set<Service> services;
+  @Inject
+  private UserHandler userHandler;
 
-    @Override
-    public void onLoad() {
-        Injector injector = Injector.create(new PluginModule(this));
-        injector.injectMembers(this);
+  @Override
+  public void onLoad() {
+    Injector injector = Injector.create(new PluginModule(this));
+    injector.injectMembers(this);
 
-    }
+  }
 
-    @Override
-    public void onEnable() {
-        services.forEach(Service::start);
-    }
+  @Override
+  public void onEnable() {
+    this.services.forEach(Service::start);
+  }
 
-    @Override
-    public void onDisable() {
-        services.forEach(Service::stop);
-
-        userHandler.saveAll();
-    }
+  @Override
+  public void onDisable() {
+    this.services.forEach(Service::stop);
+    this.userHandler.saveAll();
+  }
 }
 

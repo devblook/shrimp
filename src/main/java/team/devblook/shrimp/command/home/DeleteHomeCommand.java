@@ -15,8 +15,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @Command(
-value = "deletehome",
-alias = {"deletehome", "delhome", "dh"}
+        value = "deletehome",
+        alias = {"deletehome", "delhome", "dh"}
 )
 @Permission("shrimp.deletehome")
 public class DeleteHomeCommand extends BaseCommand {
@@ -30,24 +30,24 @@ public class DeleteHomeCommand extends BaseCommand {
 
   @Default
   public void deleteHome(Player player, @Suggestion("homes") String nameHome) {
-    User user = userHandler.get(player.getUniqueId().toString());
+    User user = this.userHandler.get(player.getUniqueId().toString());
 
     if (user == null) {
       throw new IllegalStateException("User is null");
     }
 
     if (!user.hasHome(nameHome)) {
-      Component component = messages.getMessage("home-dont-exist")
-      .replaceText(builder -> builder.match("%home%").replacement(nameHome));
+      Component component = this.messages.getMessage("home-dont-exist")
+              .replaceText(builder -> builder.match("%home%").replacement(nameHome));
       player.sendMessage(component);
 
       return;
     }
 
     user.removeHome(nameHome);
-    userHandler.update(user);
-    Component deteleComponent = messages.getMessage("delete-home")
-    .replaceText(builder -> builder.match("%home%").replacement(nameHome));
+    this.userHandler.update(user);
+    Component deteleComponent = this.messages.getMessage("delete-home")
+            .replaceText(builder -> builder.match("%home%").replacement(nameHome));
     player.sendMessage(deteleComponent);
   }
 

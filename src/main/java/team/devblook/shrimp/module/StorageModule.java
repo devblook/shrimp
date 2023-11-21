@@ -12,22 +12,22 @@ import java.util.Locale;
 
 public class StorageModule extends AbstractModule {
 
-    private final BukkitConfiguration settings;
-    private final Shrimp plugin;
+  private final BukkitConfiguration settings;
+  private final Shrimp plugin;
 
-    public StorageModule(BukkitConfiguration settings, Shrimp plugin) {
-        this.settings = settings;
-        this.plugin = plugin;
-    }
+  public StorageModule(BukkitConfiguration settings, Shrimp plugin) {
+    this.settings = settings;
+    this.plugin = plugin;
+  }
 
-    @Override
-    public void configure() {
-        String typeStorage = settings.get().getString("storage-type", "JSON").toUpperCase(Locale.ROOT);
-        switch (typeStorage) {
-            case "JSON" -> bind(Storage.class).to(JsonStorage.class);
-            case "MYSQL" -> bind(Storage.class).to(MySQLStorage.class).singleton();
-            case "MONGODB" -> bind(Storage.class).to(MongoStorage.class).singleton();
-            default -> throw new IllegalArgumentException("Storage type not found!");
-        }
+  @Override
+  public void configure() {
+    String typeStorage = this.settings.get().getString("storage-type", "JSON").toUpperCase(Locale.ROOT);
+    switch (typeStorage) {
+      case "JSON" -> this.bind(Storage.class).to(JsonStorage.class);
+      case "MYSQL" -> this.bind(Storage.class).to(MySQLStorage.class).singleton();
+      case "MONGODB" -> this.bind(Storage.class).to(MongoStorage.class).singleton();
+      default -> throw new IllegalArgumentException("Storage type not found!");
     }
+  }
 }

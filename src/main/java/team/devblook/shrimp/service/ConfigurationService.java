@@ -9,22 +9,21 @@ import javax.inject.Named;
 @InjectAll
 public class ConfigurationService implements Service {
 
-    private Shrimp plugin;
-    @Named("messages")
-    private BukkitConfiguration messages;
+  private Shrimp plugin;
+  @Named("messages")
+  private BukkitConfiguration messages;
 
+  private BukkitConfiguration settings;
 
-    private BukkitConfiguration settings;
+  @Override
+  public void start() {
+    this.plugin.getLogger().info("Configuration load!");
+  }
 
-    @Override
-    public void start() {
-        plugin.getLogger().info("Configuration load!");
-    }
-
-    @Override
-    public void stop() {
-        settings.save();
-        messages.save();
-        plugin.getLogger().info("Configuration saved!");
-    }
+  @Override
+  public void stop() {
+    this.settings.save();
+    this.messages.save();
+    this.plugin.getLogger().info("Configuration saved!");
+  }
 }

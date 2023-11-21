@@ -16,8 +16,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @Command(
-value = "sethome",
-alias = {"sethome", "sh"}
+        value = "sethome",
+        alias = {"sethome", "sh"}
 )
 @Permission("shrimp.sethome")
 public class SetHomeCommand extends BaseCommand {
@@ -31,39 +31,38 @@ public class SetHomeCommand extends BaseCommand {
   private BukkitConfiguration messages;
 
 
-
   @Default
   public void homeCommandEmpty(Player player, @Join(",") String nameHome) {
-    FileConfiguration settingsConfig = settings.get();
+    FileConfiguration settingsConfig = this.settings.get();
 
     if (nameHome.isEmpty() || nameHome.equals(" ")) {
-      player.sendMessage(messages.getMessage("set-home-empty-name"));
+      player.sendMessage(this.messages.getMessage("set-home-empty-name"));
       return;
     }
 
     int maxHomeAmount = settingsConfig.getInt("max-home-amount");
-    User user = userHandler.get(player.getUniqueId().toString());
+    User user = this.userHandler.get(player.getUniqueId().toString());
 
     if (user == null) {
       throw new IllegalStateException("User is null");
     }
 
     if (user.sizeHomes() >= maxHomeAmount) {
-      Component component = messages.getMessage("limit-homes");
+      Component component = this.messages.getMessage("limit-homes");
       player.sendMessage(component);
       return;
     }
 
     if (user.hasHome(nameHome)) {
-      Component component = messages.getMessage("equals-homes-name")
-      .replaceText(builder -> builder.match("%name%").replacement(nameHome));
+      Component component = this.messages.getMessage("equals-homes-name")
+              .replaceText(builder -> builder.match("%name%").replacement(nameHome));
       player.sendMessage(component);
       return;
     }
 
     user.addHome(nameHome, player.getLocation());
-    userHandler.update(user);
-    Component home = messages.getMessage("create-home").replaceText(builder -> builder.match("%name%").replacement(nameHome));
+    this.userHandler.update(user);
+    Component home = this.messages.getMessage("create-home").replaceText(builder -> builder.match("%name%").replacement(nameHome));
     player.sendMessage(home);
   }
 

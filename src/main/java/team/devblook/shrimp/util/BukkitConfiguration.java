@@ -24,17 +24,17 @@ public class BukkitConfiguration {
 
     this.file = new File(folder, fileName + ".yml");
 
-    if (!file.exists()) {
-      try (InputStream stream = getClass().getClassLoader().getResourceAsStream(file.getName())) {
+    if (!this.file.exists()) {
+      try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream(this.file.getName())) {
         if (stream != null) {
-          Files.copy(stream, file.toPath());
+          Files.copy(stream, this.file.toPath());
         }
       } catch (IOException e) {
         throw new UncheckedIOException("An error occurred while loading file '" + fileName + "'.",
-        e);
+                e);
       }
     }
-    reload();
+    this.reload();
   }
 
   public BukkitConfiguration(Plugin plugin, String fileName) {
@@ -42,19 +42,19 @@ public class BukkitConfiguration {
   }
 
   public FileConfiguration get() {
-    return config;
+    return this.config;
   }
 
   public void reload() {
-    this.config = YamlConfiguration.loadConfiguration(file);
+    this.config = YamlConfiguration.loadConfiguration(this.file);
   }
 
   public void save() {
     try {
-      config.save(file);
+      this.config.save(this.file);
     } catch (IOException e) {
       throw new UncheckedIOException(
-      "An error occurred while saving file '" + file.getName() + "'.", e);
+              "An error occurred while saving file '" + this.file.getName() + "'.", e);
     }
   }
 

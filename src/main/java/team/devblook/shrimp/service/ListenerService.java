@@ -10,14 +10,14 @@ import java.util.Set;
 
 public class ListenerService implements Service {
 
-    @Inject
-    private Set<Listener> listeners;
-    @Inject
-    private Shrimp plugin;
+  @Inject
+  private Set<Listener> listeners;
+  @Inject
+  private Shrimp plugin;
 
-    @Override
-    public void start() {
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        listeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));
-    }
+  @Override
+  public void start() {
+    PluginManager pluginManager = Bukkit.getPluginManager();
+    this.listeners.forEach(listener -> pluginManager.registerEvents(listener, this.plugin));
+  }
 }

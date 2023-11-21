@@ -26,14 +26,15 @@ public class CommandService implements Service {
 
   @Override
   public void start() {
-    BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(plugin);
-    manager.registerSuggestion(SuggestionKey.of("homes"), (context, input) ->
-    userHandler.get(Bukkit.getPlayerExact(context.getName()).getUniqueId().toString())
-    .homes()
-    .stream()
-    .map(Home::name)
-    .collect(Collectors.toList()));
-    commands.forEach(manager::registerCommand);
+    BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this.plugin);
+    manager.registerSuggestion(SuggestionKey.of("homes"),
+            (context, input) ->
+                    this.userHandler.get(Bukkit.getPlayerExact(context.getName()).
+                                    getUniqueId().toString())
+                            .homes().stream()
+                            .map(Home::name)
+                            .collect(Collectors.toList()));
+    this.commands.forEach(manager::registerCommand);
   }
 
 

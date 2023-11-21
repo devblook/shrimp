@@ -13,11 +13,11 @@ public class CommandModule extends AbstractModule {
   @Override
   protected void configure() {
     multibind(BaseCommand.class).asSet()
-    .to(HomeCommand.class)
-    .to(SetHomeCommand.class)
-    .to(MainCommand.class)
-    .to(DeleteHomeCommand.class)
-    .to(HomesCommand.class);
+            .to(HomeCommand.class)
+            .to(SetHomeCommand.class)
+            .to(MainCommand.class)
+            .to(DeleteHomeCommand.class)
+            .to(HomesCommand.class);
   }
 }
 

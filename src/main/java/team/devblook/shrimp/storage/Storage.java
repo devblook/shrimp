@@ -4,11 +4,11 @@ import team.devblook.shrimp.user.User;
 
 
 public interface Storage {
-    default void connect() {
-    }
+  default void connect() {
+  }
 
-    void save(User user);
+  void save(User user);
 
-    User find(String id);
+  User find(String id);
 
 }

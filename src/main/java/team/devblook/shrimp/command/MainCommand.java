@@ -15,8 +15,8 @@ import java.util.List;
 
 @InjectAll
 @Command(
-value = "shrimp",
-alias = {"shrimp"}
+        value = "shrimp",
+        alias = {"shrimp"}
 )
 @Permission("shrimp.op")
 public class MainCommand extends BaseCommand {
@@ -25,21 +25,16 @@ public class MainCommand extends BaseCommand {
   @Named("messages")
   private BukkitConfiguration messages;
 
-
-  //@Command(names = "list", permission = "shrimp.list")
-
-  //@Command(names = "reload", permission = "shrimp.op")
   @SubCommand("reload")
   public void reloadCommand(Player player) {
-    settings.reload();
-    messages.reload();
+    this.settings.reload();
+    this.messages.reload();
     player.sendMessage("Reloaded...");
   }
 
-  //@Command(names = "help", permission = "shrimp.help")
   @SubCommand("help")
   public void helpCommand(Player player) {
-    List<String> help = new ArrayList<>(messages.get().getStringList("help-messages"));
+    List<String> help = new ArrayList<>(this.messages.get().getStringList("help-messages"));
     for (String message : help) {
       player.sendMessage(MiniMessage.miniMessage().deserialize(message));
     }

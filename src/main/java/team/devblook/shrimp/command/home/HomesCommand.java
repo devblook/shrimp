@@ -20,8 +20,8 @@ import javax.inject.Named;
 import java.util.Collection;
 
 @Command(
-value = "homes",
-alias = {"homes"}
+        value = "homes",
+        alias = {"homes"}
 )
 @Permission("shrimp.homes")
 public class HomesCommand extends BaseCommand {
@@ -33,23 +33,23 @@ public class HomesCommand extends BaseCommand {
 
   @Default
   public void getHomesListCommand(Player player) {
-    User user = userHandler.get(player.getUniqueId().toString());
+    User user = this.userHandler.get(player.getUniqueId().toString());
     if (user == null) {
       throw new IllegalStateException("User is null");
     }
     Collection<Home> homeCollection = user.homes();
     if (homeCollection.isEmpty()) {
-      player.sendMessage(messages.getMessage("list-homes-empty"));
+      player.sendMessage(this.messages.getMessage("list-homes-empty"));
       return;
     }
-    Component component = messages.getMessage("homes");
+    Component component = this.messages.getMessage("homes");
     for (Home home : homeCollection) {
       Component homeComponent = Component
-      .text(home.name() + "  ")
-      .color(NamedTextColor.AQUA)
-      .decoration(TextDecoration.ITALIC, false)
-      .hoverEvent(HoverEvent.showText(messages.getMessage("click-to-teleport")))
-      .clickEvent(ClickEvent.runCommand("/shrimp:home " + home.name()));
+              .text(home.name() + "  ")
+              .color(NamedTextColor.AQUA)
+              .decoration(TextDecoration.ITALIC, false)
+              .hoverEvent(HoverEvent.showText(this.messages.getMessage("click-to-teleport")))
+              .clickEvent(ClickEvent.runCommand("/shrimp:home " + home.name()));
       component = component.append(homeComponent);
     }
     player.sendMessage(component);

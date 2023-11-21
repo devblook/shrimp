@@ -10,11 +10,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ReferenceModule extends AbstractModule {
 
-    @Override
-    protected void configure() {
-        bind(new TypeReference<Map<String, User>>(){})
-        .toInstance(new ConcurrentHashMap<>());
+  @Override
+  protected void configure() {
+    bind(new TypeReference<Map<String, User>>() {
+    })
+            .toInstance(new ConcurrentHashMap<>());
 
-        bind(UserHandler.class).singleton();
-    }
+    bind(UserHandler.class).singleton();
+  }
 }
