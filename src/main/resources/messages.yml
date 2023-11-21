@@ -1,6 +1,7 @@
 empty-name-homes: "<red>You cant have a home with an empty name!"
 home-dont-exist: "<red>You dont have a home with that name! %home%"
 teleport-to-home: "<green>You have been teleported to your home <gold> %home%"
+teleport-failed: "<red>Teleport failed!"
 set-home-empty-name: "<red>You must put a name to your home!"
 limit-homes: "<red>You have reached the limit of homes!"
 equals-homes-name: "<red>You already have a home with that name! %name%"
