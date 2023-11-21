@@ -6,7 +6,6 @@ import dev.triumphteam.cmd.core.annotation.Command;
 import dev.triumphteam.cmd.core.annotation.Default;
 import dev.triumphteam.cmd.core.annotation.Suggestion;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import team.devblook.shrimp.home.Home;
@@ -19,8 +18,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @Command(
-value = "home",
-alias = {"home", "h"}
+        value = "home",
+        alias = {"home", "h"}
 )
 @Permission("shrimp.home")
 public class HomeCommand extends BaseCommand {
@@ -35,19 +34,21 @@ public class HomeCommand extends BaseCommand {
   @Default//@Command(names = "")
   public void mainCommand(Player player, @Suggestion("homes") String nameHome) {
 
-    User user = userHandler.get(player.getUniqueId().toString());
+    User user = this.userHandler.get(player.getUniqueId().toString());
 
     if (user == null) {
       throw new IllegalStateException("User is null");
     }
 
     if (nameHome.isEmpty()) {
-      player.sendMessage(messages.getMessage("empty-name-homes"));
+      player.sendMessage(this.messages.getMessage("empty-name-homes"));
       return;
     }
 
     if (!user.hasHome(nameHome)) {
-      player.sendMessage(messages.getMessage("home-dont-exist"));
+      Component component = this.messages.getMessage("home-dont-exist")
+              .replaceText(builder -> builder.match("%home%").replacement(nameHome));
+      player.sendMessage(component);
       return;
     }
 
@@ -58,9 +59,14 @@ public class HomeCommand extends BaseCommand {
     }
 
     Location location = HomePosition.Positions.toLocation(home.position());
-    player.teleportAsync(location);
-
-    Component component = messages.getMessage("teleport-to-home").replaceText(builder -> builder.match("%home%").replacement(nameHome));
+    player.teleportAsync(location)
+            .whenComplete((aVoid, throwable) -> {
+              if (throwable != null) {
+                player.sendMessage(this.messages.getMessage("teleport-failed"));
+                return;
+              }
+            });
+    Component component = this.messages.getMessage("teleport-to-home").replaceText(builder -> builder.match("%home%").replacement(nameHome));
     player.sendMessage(component);
 
   }
