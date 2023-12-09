@@ -9,14 +9,14 @@ max-home-amount: 2
 storage-type: JSON
 MYSQL:
   host: localhost
-  port: localhost
+  port: 3306
   database: example
   username: root
   password: root
   table-prefix: example
 MONGODB:
   host: localhost
-  port: localhost
+  port: 27017
   database: example
   username: root
   password: root
