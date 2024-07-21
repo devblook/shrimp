@@ -1,0 +1,19 @@
+[versions]
+paper = "1.21-R0.1-SNAPSHOT"
+jupiter = "5.10.1"
+
+[plugins]
+shadow = "com.github.johnrengelman.shadow:7.1.2"
+spotless = "com.diffplug.spotless:6.17.0"
+paperPlugin = "net.minecrell.plugin-yml.paper:0.6.0"
+
+[libraries]
+paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+inject = "team.unnamed:inject:2.0.1"
+triumphcmd = "dev.triumphteam:triumph-cmd-bukkit:2.0.0-SNAPSHOT"
+lombok = "org.projectlombok:lombok:1.18.34"
+hikari = "com.zaxxer:HikariCP:5.1.0"
+mongo = "org.mongodb:mongodb-driver-sync:5.1.2"
+
+jupiterApi = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter" }
+jupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jupiter" }
