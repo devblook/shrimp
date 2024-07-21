@@ -1,14 +1,27 @@
 package team.devblook.shrimp.storage;
 
-import team.devblook.shrimp.user.User;
+import com.mongodb.client.MongoDatabase;
 
+import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Optional;
 
 public interface Storage {
-  default void connect() {
+
+  void configure();
+
+  void checkConnection();
+
+  default Optional<Connection> getConnection() throws SQLException {
+    return Optional.empty();
   }
 
-  void save(User user);
+  default MongoDatabase getMongoDatabase() {
+    return null;
+  }
 
-  User find(String id);
-
+  default File getFolder() {
+    return null;
+  }
 }
