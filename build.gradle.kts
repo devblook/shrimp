@@ -21,7 +21,7 @@ dependencies {
   implementation(libs.mongo)
 
   implementation(libs.inject)
-  implementation(libs.triumphcmd)
+  implementation(libs.command)
 
   implementation(libs.lombok)
   annotationProcessor(libs.lombok)
