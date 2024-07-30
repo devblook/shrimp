@@ -12,8 +12,8 @@ public class LocalStorage implements Storage {
   private File folder;
   private ComponentLogger logger;
 
-  public LocalStorage(ComponentLogger logger, Plugin plugin) {
-    this.logger = logger;
+  public LocalStorage(Plugin plugin) {
+    this.logger = plugin.getComponentLogger();
     this.path = plugin.getDataFolder() + "/users";
   }
 
