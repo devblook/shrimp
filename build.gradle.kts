@@ -50,5 +50,13 @@ tasks {
   java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
   }
+
+  paper {
+    main = "team.devblook.shrimp.ShrimpPlugin"
+    name = "Shrimp"
+    version = "1.0.0"
+    apiVersion = "1.21"
+    authors = listOf("Jonakls")
+  }
 }
 
