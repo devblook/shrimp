@@ -1,10 +1,13 @@
 package team.devblook.shrimp.command.part;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import team.devblook.shrimp.model.HomeModel;
 import team.devblook.shrimp.model.UserModel;
 import team.devblook.shrimp.repository.TypeRepository;
 import team.unnamed.commandflow.CommandContext;
 import team.unnamed.commandflow.annotated.part.PartFactory;
+import team.unnamed.commandflow.bukkit.BukkitCommonConstants;
 import team.unnamed.commandflow.exception.ArgumentParseException;
 import team.unnamed.commandflow.part.ArgumentPart;
 import team.unnamed.commandflow.part.CommandPart;
@@ -33,40 +36,66 @@ public class HomeListPart implements PartFactory {
       public List<?> parseValue(final CommandContext context, final ArgumentStack stack, final CommandPart caller)
         throws ArgumentParseException {
 
-        if (stack.hasNext()) {
-          final String name = stack.next();
-          final UserModel user = userRepository.get(name);
+        final CommandSender sender = context.getObject(CommandSender.class, BukkitCommonConstants.SENDER_NAMESPACE);
 
-          if (user == null) {
-            throw new ArgumentParseException("User not found");
-          }
-
-          return List.of(user);
+        if (!(sender instanceof Player player)) {
+          throw new ArgumentParseException("Only players can have homes");
         }
 
-        return List.of();
+        final UserModel user = userRepository.get(player.getUniqueId()
+                                                    .toString());
+
+        if (user == null) {
+          throw new ArgumentParseException("User not found");
+        }
+
+        if (stack.hasNext()) {
+          final String prefix = stack.next();
+
+          final Set<HomeModel> homes = user.getHomes();
+
+          if (homes.isEmpty()) {
+            return Collections.emptyList();
+          }
+
+          return homes.stream()
+                   .filter(home -> home.getName()
+                                     .equals(prefix))
+                   .toList();
+        }
+
+        return Collections.emptyList();
       }
 
       @Override
       public String getName() {
-        return "";
+        return "home-part";
       }
 
       @Override
       public List<String> getSuggestions(final CommandContext commandContext, final ArgumentStack stack) {
         final List<String> suggestions = new ArrayList<>();
 
-        if (!stack.hasNext()) {
-          return Collections.emptyList();
+        final CommandSender sender = commandContext.getObject(
+          CommandSender.class,
+          BukkitCommonConstants.SENDER_NAMESPACE);
+
+        if (!(sender instanceof Player player)) {
+          throw new ArgumentParseException("Only players can have homes");
         }
 
-        final String prefix = stack.next();
-        final UserModel user = userRepository.get(prefix);
+        final UserModel user = userRepository.get(player.getUniqueId()
+                                                    .toString());
 
         if (user == null) {
           return Collections.emptyList();
         }
 
+        if (!stack.hasNext()) {
+          return Collections.emptyList();
+        }
+
+        final String prefix = stack.next();
         final Set<HomeModel> homes = user.getHomes();
 
         if (homes.isEmpty()) {

@@ -1,4 +1,6 @@
 package team.devblook.shrimp.command.home;
 
-public class GuiHomeCommand {
+import team.unnamed.commandflow.annotated.CommandClass;
+
+public class GuiHomeCommand implements CommandClass {
 }

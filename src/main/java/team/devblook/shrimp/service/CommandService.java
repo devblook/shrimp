@@ -1,6 +1,6 @@
 package team.devblook.shrimp.service;
 
-import org.bukkit.plugin.Plugin;
+import team.devblook.shrimp.command.module.HomePartModule;
 import team.unnamed.commandflow.CommandManager;
 import team.unnamed.commandflow.annotated.AnnotatedCommandTreeBuilder;
 import team.unnamed.commandflow.annotated.CommandClass;
@@ -24,13 +24,14 @@ public class CommandService implements Service {
   private CommandManager commandManager;
 
   @Inject
-  private Plugin plugin;
+  private HomePartModule homePartModule;
 
   @Override
   public void start() {
     final PartInjector partInjector = PartInjector.create();
     partInjector.install(new DefaultsModule());
     partInjector.install(new BukkitModule());
+    partInjector.install(homePartModule);
 
     final AnnotatedCommandTreeBuilder treeBuilder = AnnotatedCommandTreeBuilder.create(
       partInjector,

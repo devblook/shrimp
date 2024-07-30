@@ -1,4 +1,6 @@
 package team.devblook.shrimp.command.home;
 
-public class ListHomeCommand {
+import team.unnamed.commandflow.annotated.CommandClass;
+
+public class ListHomeCommand implements CommandClass {
 }
