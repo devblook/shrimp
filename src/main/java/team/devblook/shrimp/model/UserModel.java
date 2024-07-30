@@ -2,6 +2,7 @@ package team.devblook.shrimp.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,5 +22,22 @@ public class UserModel implements Model {
   @Override
   public String getId() {
     return this.id;
+  }
+
+  public void addHome(HomeModel home) {
+    this.homes.add(home);
+  }
+
+  public void removeHome(HomeModel home) {
+    this.homes.remove(home);
+  }
+
+  @Nullable
+  public HomeModel getHome(String name) {
+    return this.homes.stream()
+             .filter(home -> home.getName()
+                               .equalsIgnoreCase(name))
+             .findFirst()
+             .orElse(null);
   }
 }
