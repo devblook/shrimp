@@ -6,23 +6,24 @@ import team.devblook.shrimp.storage.ObjectStorage;
 import java.util.Optional;
 
 public class MysqlObjectStorage<T extends Model> implements ObjectStorage<T> {
+
   @Override
-  public T findSync(final String uuid, final T object) {
+  public T findSync(final String uuid) {
     return null;
   }
 
   @Override
-  public T findAsync(final String uuid, final T object) {
+  public T findAsync(final String uuid) {
     return null;
   }
 
   @Override
-  public Optional<T> findOptionalSync(final String uuid, final T object) {
+  public Optional<T> findOptionalSync(final String uuid) {
     return Optional.empty();
   }
 
   @Override
-  public Optional<T> findOptionalAsync(final String uuid, final T object) {
+  public Optional<T> findOptionalAsync(final String uuid) {
     return Optional.empty();
   }
 

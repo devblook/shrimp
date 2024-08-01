@@ -6,13 +6,13 @@ import java.util.Optional;
 
 public interface ObjectStorage<T extends Model> {
 
-  T findSync(String uuid, T object);
+  T findSync(String uuid);
 
-  T findAsync(String uuid, T object);
+  T findAsync(String uuid);
 
-  Optional<T> findOptionalSync(String uuid, T object);
+  Optional<T> findOptionalSync(String uuid);
 
-  Optional<T> findOptionalAsync(String uuid, T object);
+  Optional<T> findOptionalAsync(String uuid);
 
   void saveSync(T object);
 
