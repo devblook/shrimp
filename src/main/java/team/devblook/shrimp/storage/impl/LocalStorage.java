@@ -10,7 +10,7 @@ public class LocalStorage implements Storage {
 
   private final String path;
   private File folder;
-  private ComponentLogger logger;
+  private final ComponentLogger logger;
 
   public LocalStorage(Plugin plugin) {
     this.logger = plugin.getComponentLogger();
