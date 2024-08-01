@@ -11,8 +11,8 @@ public class HomeModel implements Model {
 
   private final String id;
   private String name;
-  private Instant createdAt;
   private HomePosition position;
+  private Instant createdAt;
 
   public HomeModel(final String id) {
     this.id = id;
