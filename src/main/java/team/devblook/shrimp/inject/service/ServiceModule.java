@@ -3,6 +3,7 @@ package team.devblook.shrimp.inject.service;
 import team.devblook.shrimp.service.CommandService;
 import team.devblook.shrimp.service.ListenerService;
 import team.devblook.shrimp.service.Service;
+import team.devblook.shrimp.service.StorageService;
 import team.unnamed.inject.AbstractModule;
 
 public class ServiceModule extends AbstractModule {
@@ -13,6 +14,7 @@ public class ServiceModule extends AbstractModule {
       .asSet()
       .to(CommandService.class)
       .to(ListenerService.class)
+      .to(StorageService.class)
       .singleton();
   }
 }
