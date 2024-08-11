@@ -10,7 +10,7 @@ paperPlugin = "net.minecrell.plugin-yml.paper:0.6.0"
 [libraries]
 paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 inject = "team.unnamed:inject:2.0.1"
-triumphcmd = "dev.triumphteam:triumph-cmd-bukkit:2.0.0-SNAPSHOT"
+gui = "dev.triumphteam:triumph-gui:3.1.10"
 command = "team.unnamed:commandflow-bukkit-commandmap:0.7.0"
 lombok = "org.projectlombok:lombok:1.18.34"
 hikari = "com.zaxxer:HikariCP:5.1.0"
