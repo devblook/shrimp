@@ -21,6 +21,7 @@ dependencies {
   implementation(libs.mongo)
 
   implementation(libs.inject)
+  implementation(libs.gui)
   implementation(libs.command)
 
   implementation(libs.lombok)
