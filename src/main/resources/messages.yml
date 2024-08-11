@@ -1,19 +1,48 @@
-empty-name-homes: "<red>You cant have a home with an empty name!"
-home-dont-exist: "<red>You dont have a home with that name! %home%"
-teleport-to-home: "<green>You have been teleported to your home <gold> %home%"
-teleport-failed: "<red>Teleport failed!"
-set-home-empty-name: "<red>You must put a name to your home!"
-limit-homes: "<red>You have reached the limit of homes!"
-equals-homes-name: "<red>You already have a home with that name! %name%"
-create-home: "<green>You have created a home with the name <gold> %name%"
-delete-home: "<green>You have deleted your home with the name <gold> %home%"
-list-homes-empty: "<red>You dont have any home!"
-homes: "<red>Homes: "
-click-to-teleport: "<gold>Click to teleport!"
-help-messages:
-  - "<gold>/home <green>Teleport to your home"
-  - "<gold>/sethome <green>Set a home"
-  - "<gold>/delhome <green>Delete a home"
-  - "<gold>/homes <green>List your homes with components"
-  - "<gold>/shrimp help <green>Shows this help"
-  - "<gold>/shrimp reload <green>Reload the plugin"
+gui:
+  title: "<gold>Homes"
+  item:
+    name: "<gold><home>"
+    lore:
+      - "<green>Click to teleport!"
+      - "<green>Right click to delete!"
+  back:
+    name: "<red>Back"
+    lore:
+      - "<green>Click to go back!"
+  next:
+    name: "<green>Next"
+    lore:
+      - "<green>Click to go next!"
+user:
+  empty-name-homes: "<red>You cant have a home with an empty name!"
+  home-dont-exist: "<red>You dont have a home with that name! <home>"
+  teleport-to-home: "<green>You have been teleported to your home <gold> <home>"
+  teleport-failed: "<red>Teleport failed!"
+  set-home-empty-name: "<red>You must put a name to your home!"
+  limit-homes: "<red>You have reached the limit of homes!"
+  home-exist: "<red>You already have a home with that name <home>!"
+  create-home: "<green>You have created a home with the name <gold> <home>"
+  delete-home: "<green>You have deleted your home with the name <gold> <home>"
+  list-homes-empty: "<red>You dont have any home!"
+  homes: "<red>Homes: "
+  help-messages:
+    - "<gold>/home <green>Teleport to your home"
+    - "<gold>/sethome <green>Set a home"
+    - "<gold>/delhome <green>Delete a home"
+    - "<gold>/homes <green>List your homes with components"
+administrator:
+  help-messages:
+    - "<gold>/shrimp <green>Show plugin help"
+    - "<gold>/shrimp reload <green>Reload the plugin"
+  reload: "<green>Plugin reloaded!"
+  no-permission: "<red>You dont have permission to do that!"
+error:
+  user-not-found: "<red>User not found!"
+  invalid-argument: "<red>Invalid argument!"
+  invalid-command: "<red>Invalid command!"
+  invalid-usage: "<red>Invalid usage!"
+  home-not-found: "<red>Home not found!"
+  invalid-home-name: "<red>Invalid home name!"
+  invalid-home-location: "<red>Invalid home location!"
+
+
