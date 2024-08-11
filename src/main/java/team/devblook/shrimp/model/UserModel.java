@@ -24,8 +24,17 @@ public class UserModel implements Model {
     return this.id;
   }
 
-  public void addHome(HomeModel home) {
+  public boolean addHome(HomeModel home) {
+    boolean exist = this.homes.stream()
+                      .anyMatch(h -> h.getName()
+                                       .equalsIgnoreCase(home.getName()));
+
+    if (exist) {
+      return false;
+    }
+
     this.homes.add(home);
+    return true;
   }
 
   public void removeHome(HomeModel home) {
