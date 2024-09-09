@@ -17,14 +17,14 @@ dependencies {
 
   compileOnly(libs.paper)
 
-  implementation(libs.hikari)
-  implementation(libs.mongo)
+  compileOnly(libs.hikari)
+  compileOnly(libs.mongo)
 
-  implementation(libs.inject)
-  implementation(libs.gui)
-  implementation(libs.command)
+  compileOnly(libs.inject)
+  compileOnly(libs.gui)
+  compileOnly(libs.command)
 
-  implementation(libs.lombok)
+  compileOnly(libs.lombok)
   annotationProcessor(libs.lombok)
 
   testCompileOnly(libs.inject)
@@ -39,13 +39,6 @@ tasks {
     archiveBaseName.set("Shrimp")
     archiveVersion.set("${project.version}")
     archiveClassifier.set("BETA")
-
-    // Relocations
-    relocate("dev.triumphteam", "${rootProject.group}.shrimp.libs.command")
-    relocate("team.unnamed", "${rootProject.group}.shrimp.libs.inject")
-    relocate("org.mongodb", "${rootProject.group}.shrimp.libs.mongodb")
-    relocate("com.zaxxer", "${rootProject.group}.shrimp.libs.hikari")
-    relocate("org.projectlombok", "${rootProject.group}.shrimp.libs.bukkit")
   }
 
   java {
@@ -54,8 +47,9 @@ tasks {
 
   paper {
     main = "team.devblook.shrimp.ShrimpPlugin"
+    loader = "team.devblook.shrimp.ShrimpPluginLoader"
     name = "Shrimp"
-    version = "1.0.0"
+    version = "${rootProject.version}"
     apiVersion = "1.21"
     authors = listOf("Jonakls")
   }
