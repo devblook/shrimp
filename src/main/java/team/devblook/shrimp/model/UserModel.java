@@ -12,6 +12,7 @@ import java.util.Set;
 public class UserModel implements Model {
 
   private final String id;
+  private String name;
   private Set<HomeModel> homes;
 
   public UserModel(final String id) {

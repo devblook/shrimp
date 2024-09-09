@@ -25,6 +25,13 @@ public class HomeModel implements Model {
     this.position = position;
   }
 
+  public HomeModel(final String id, final String name, final HomePosition position, final Instant createdAt) {
+    this.id = id;
+    this.name = name;
+    this.position = position;
+    this.createdAt = createdAt;
+  }
+
   @Override
   public String getId() {
     return this.id;

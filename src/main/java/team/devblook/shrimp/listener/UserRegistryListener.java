@@ -27,6 +27,7 @@ public class UserRegistryListener implements Listener {
   public void onUserSave(final PlayerQuitEvent event) {
     final Player player = event.getPlayer();
     final UserModel userModel = userManager.findOne(player.getUniqueId());
+    userModel.setName(player.getName());
     userManager.saveOne(userModel);
   }
 }

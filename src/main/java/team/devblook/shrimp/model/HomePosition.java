@@ -7,13 +7,26 @@ public record HomePosition(String world, double x, double y, double z, float yaw
 
   @Override
   public String toString() {
-    return "HomePosition[" +
-           "world=" + this.world + ", " +
-           "x=" + this.x + ", " +
-           "y=" + this.y + ", " +
-           "z=" + this.z + ", " +
-           "yaw=" + this.yaw + ", " +
-           "pitch=" + this.pitch + ']';
+    return String.join(",",
+                       this.world,
+                       Double.toString(this.x),
+                       Double.toString(this.y),
+                       Double.toString(this.z),
+                       Float.toString(this.yaw),
+                       Float.toString(this.pitch)
+    );
+  }
+
+  public static HomePosition fromString(String string) {
+    String[] parts = string.split(",");
+    return new HomePosition(
+      parts[0],
+      Double.parseDouble(parts[1]),
+      Double.parseDouble(parts[2]),
+      Double.parseDouble(parts[3]),
+      Float.parseFloat(parts[4]),
+      Float.parseFloat(parts[5])
+    );
   }
 
   public static class Positions {

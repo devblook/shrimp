@@ -13,7 +13,6 @@ MYSQL:
   database: example
   username: root
   password: root
-  table-prefix: example
 MONGODB:
   host: localhost
   port: 27017

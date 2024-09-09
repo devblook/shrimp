@@ -25,7 +25,7 @@ public class DatabaseModule extends AbstractModule {
     final String type = config.get()
                           .getString("storage-type", "JSON");
     return switch (type.toUpperCase(Locale.ROOT)) {
-      case "MYSQL" -> new MySqlStorage(plugin.getComponentLogger());
+      case "MYSQL" -> new MySqlStorage(plugin.getComponentLogger(), config);
       case "MONGO" -> new MongoStorage(plugin.getComponentLogger(), "mongodb://localhost:27017", "shrimp");
       default -> new LocalStorage(plugin);
     };
@@ -38,7 +38,7 @@ public class DatabaseModule extends AbstractModule {
                           .getString("storage-type", "JSON");
 
     return switch (type.toUpperCase(Locale.ROOT)) {
-      case "MYSQL" -> new MysqlObjectStorage<>();
+      case "MYSQL" -> new MysqlObjectStorage(storage, plugin.getComponentLogger());
       case "MONGO" -> new MongoObjectStorage<>();
       default -> new LocalObjectStorage<>(plugin.getComponentLogger(), storage, UserModel.class);
     };
