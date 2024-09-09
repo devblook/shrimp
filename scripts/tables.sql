@@ -1,24 +1,24 @@
-create table if not exists shrimp_homes
+CREATE TABLE IF NOT EXISTS SHRIMP_HOMES
 (
-  home_id       varchar(36) primary key,
-  home_name     varchar(255) not null,
-  home_position varchar(255) not null,
-  created_at    timestamp    not null
+  HOME_ID       VARCHAR(36) PRIMARY KEY,
+  HOME_NAME     VARCHAR(255) NOT NULL,
+  HOME_POSITION VARCHAR(255) NOT NULL,
+  CREATED_AT    TIMESTAMP    NOT NULL
 );
 
-create table if not exists shrimp_users
+CREATE TABLE IF NOT EXISTS SHRIMP_USERS
 (
-  user_id   varchar(36) primary key,
-  user_name varchar(255) not null
+  USER_ID   VARCHAR(36) PRIMARY KEY,
+  USER_NAME VARCHAR(255) NOT NULL
 );
 
-create table if not exists shrimp_homes_users
+CREATE TABLE IF NOT EXISTS SHRIMP_HOMES_USERS
 (
-  home_id varchar(36) not null,
-  user_id varchar(36) not null,
-  primary key (home_id, user_id),
-  foreign key (home_id) references shrimp_homes (home_id),
-  foreign key (user_id) references shrimp_users (user_id)
+  HOME_ID VARCHAR(36) NOT NULL,
+  USER_ID VARCHAR(36) NOT NULL,
+  PRIMARY KEY (HOME_ID, USER_ID),
+  FOREIGN KEY (HOME_ID) REFERENCES SHRIMP_HOMES (HOME_ID),
+  FOREIGN KEY (USER_ID) REFERENCES SHRIMP_USERS (USER_ID)
 );
 
 

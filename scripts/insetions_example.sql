@@ -1,10 +1,10 @@
-insert into shrimp_users (user_id, user_name)
-values ('1', 'Alice')
-on duplicate key update user_name = 'Alice';
+INSERT INTO SHRIMP_USERS (USER_ID, USER_NAME)
+VALUES ('1', 'ALICE')
+ON DUPLICATE KEY UPDATE USER_NAME = 'ALICE';
 
-insert into shrimp_homes (home_id, home_name, home_position)
-values ('1', 'Alice Home', 'Alice Position')
-on duplicate key update home_name = 'Alice Home' and home_position = 'Alice Position';
+INSERT INTO SHRIMP_HOMES (HOME_ID, HOME_NAME, HOME_POSITION, CREATED_AT)
+VALUES ('1', 'ALICE HOME', 'ALICE POSITION', NOW())
+ON DUPLICATE KEY UPDATE HOME_NAME = 'ALICE HOME' AND HOME_POSITION = 'ALICE POSITION';
 
-insert into shrimp_homes_users (home_id, user_id)
-values ('1', '1');
+INSERT INTO SHRIMP_HOMES_USERS (HOME_ID, USER_ID)
+VALUES ('1', '1');

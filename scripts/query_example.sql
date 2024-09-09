@@ -1,18 +1,17 @@
-select su.user_id, su.user_name, sh.home_id, sh.home_name, sh.home_position, sh.created_at
-from shrimp_users as su
-         inner join shrimp.shrimp_homes_users shu on su.user_id = shu.user_id
-         inner join shrimp.shrimp_homes sh on shu.home_id = sh.home_id
-where su.user_id = 1;
+SELECT SU.USER_ID, SU.USER_NAME, SH.HOME_ID, SH.HOME_NAME, SH.HOME_POSITION, SH.CREATED_AT
+FROM SHRIMP_USERS AS SU
+         INNER JOIN SHRIMP.SHRIMP_HOMES_USERS SHU ON SU.USER_ID = SHU.USER_ID
+         INNER JOIN SHRIMP.SHRIMP_HOMES SH ON SHU.HOME_ID = SH.HOME_ID
+WHERE SU.USER_ID = 1;
 
+SELECT COUNT(SHU.HOME_ID) USER_HOMES
+FROM SHRIMP_USERS AS SU
+         INNER JOIN SHRIMP.SHRIMP_HOMES_USERS SHU ON SU.USER_ID = SHU.USER_ID
+         INNER JOIN SHRIMP.SHRIMP_HOMES SH ON SHU.HOME_ID = SH.HOME_ID
+WHERE SU.USER_ID = 1;
 
-select count(shu.home_id) user_homes
-from shrimp_users as su
-         inner join shrimp.shrimp_homes_users shu on su.user_id = shu.user_id
-         inner join shrimp.shrimp_homes sh on shu.home_id = sh.home_id
-where su.user_id = 1;
-
-select count(shu.user_id) home_users
-from shrimp_users as su
-         inner join shrimp.shrimp_homes_users shu on su.user_id = shu.user_id
-         inner join shrimp.shrimp_homes sh on shu.home_id = sh.home_id
-where sh.home_id = 1;
+SELECT COUNT(SHU.USER_ID) HOME_USERS
+FROM SHRIMP_USERS AS SU
+         INNER JOIN SHRIMP.SHRIMP_HOMES_USERS SHU ON SU.USER_ID = SHU.USER_ID
+         INNER JOIN SHRIMP.SHRIMP_HOMES SH ON SHU.HOME_ID = SH.HOME_ID
+WHERE SH.HOME_ID = 1;
