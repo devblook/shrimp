@@ -9,7 +9,6 @@ repositories {
   mavenLocal()
   maven("https://repo.unnamed.team/repository/unnamed-public/")
   maven("https://repo.papermc.io/repository/maven-public/")
-  maven("https://repo.triumphteam.dev/snapshots/")
 
 }
 
@@ -21,7 +20,7 @@ dependencies {
   compileOnly(libs.mongo)
 
   compileOnly(libs.inject)
-  compileOnly(libs.gui)
+  implementation(libs.gui)
   compileOnly(libs.command)
 
   compileOnly(libs.lombok)

@@ -20,18 +20,12 @@ public class ShrimpPluginLoader implements PluginLoader {
       "default",
       "https://repo.unnamed.team/repository/unnamed-public/").build();
 
-    final RemoteRepository triumphRepository = new RemoteRepository.Builder(
-      "reposiliteRepositorySnapshots",
-      "default",
-      "https://repo.triumphteam.dev/snapshots/").build();
-
     resolver.addRepository(new RemoteRepository.Builder(
       "central",
       "default",
       "https://repo1.maven.org/maven2/").build());
 
     final Dependency inject = new Dependency(new DefaultArtifact("team.unnamed:inject:2.0.0"), null);
-    final Dependency gui = new Dependency(new DefaultArtifact("dev.triumphteam:triumph-gui:3.1.11-SNAPSHOT"), null);
     final Dependency command = new Dependency(
       new DefaultArtifact("team.unnamed:commandflow-bukkit-commandmap:0.7.0"),
       null);
@@ -40,10 +34,8 @@ public class ShrimpPluginLoader implements PluginLoader {
     final Dependency mongo = new Dependency(new DefaultArtifact("org.mongodb:mongodb-driver-sync:5.1.2"), null);
 
     resolver.addRepository(unnamedRepository);
-    resolver.addRepository(triumphRepository);
 
     resolver.addDependency(inject);
-    resolver.addDependency(gui);
     resolver.addDependency(command);
     resolver.addDependency(lombok);
     resolver.addDependency(hikari);
