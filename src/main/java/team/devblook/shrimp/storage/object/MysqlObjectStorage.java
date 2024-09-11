@@ -34,8 +34,7 @@ public class MysqlObjectStorage implements ObjectStorage<UserModel> {
     final String query = """
                          SELECT SU.USER_ID, SU.USER_NAME, SH.HOME_ID, SH.HOME_NAME, SH.HOME_POSITION, SH.CREATED_AT
                          FROM SHRIMP_USERS AS SU
-                                  INNER JOIN SHRIMP.SHRIMP_HOMES_USERS SHU ON SU.USER_ID = SHU.USER_ID
-                                  INNER JOIN SHRIMP.SHRIMP_HOMES SH ON SHU.HOME_ID = SH.HOME_ID
+                                  INNER JOIN SHRIMP_HOMES SH ON SH.HOME_USER_ID = SU.USER_ID
                          WHERE SU.USER_ID = ?;
                          """;
 
@@ -107,14 +106,10 @@ public class MysqlObjectStorage implements ObjectStorage<UserModel> {
                              ON DUPLICATE KEY UPDATE USER_NAME = ?
                              """;
     final String homeQuery = """
-                              INSERT INTO SHRIMP_HOMES (HOME_ID, HOME_NAME, HOME_POSITION, CREATED_AT)
-                              VALUES (?, ?, ?, ?)
-                              ON DUPLICATE KEY UPDATE HOME_NAME = ? AND HOME_POSITION = ?
+                              INSERT INTO SHRIMP_HOMES (HOME_ID, HOME_USER_ID, HOME_NAME, HOME_POSITION, created_at)
+                              VALUES (?, ?, ?, ?, ?)
+                              ON DUPLICATE KEY UPDATE HOME_NAME = ?, HOME_POSITION = ?
                              """;
-    final String relationQuery = """
-                                  INSERT INTO SHRIMP_HOMES_USERS (HOME_ID, USER_ID)
-                                  VALUES (?, ?)
-                                 """;
 
     try (
       final Connection connection = this.storage.getConnection()
@@ -124,27 +119,24 @@ public class MysqlObjectStorage implements ObjectStorage<UserModel> {
       userStatement.setString(1, object.getId());
       userStatement.setString(2, object.getName());
       userStatement.setString(3, object.getName());
-      userStatement.executeUpdate();
+      userStatement.execute();
 
       object.getHomes()
         .forEach(home -> {
           try {
             final PreparedStatement homeStatement = connection.prepareStatement(homeQuery);
             homeStatement.setString(1, home.getId());
-            homeStatement.setString(2, home.getName());
-            homeStatement.setString(3, home.getPosition()
+            homeStatement.setString(2, object.getId());
+            homeStatement.setString(3, home.getName());
+            homeStatement.setString(4, home.getPosition()
                                          .toString());
-            homeStatement.setTimestamp(4, Timestamp.from(home.getCreatedAt()));
-            homeStatement.setString(5, home.getName());
-            homeStatement.setString(6, home.getPosition()
+            homeStatement.setTimestamp(5, Timestamp.from(home.getCreatedAt()));
+            homeStatement.setString(6, home.getName());
+            homeStatement.setString(7, home.getPosition()
                                          .toString());
 
-            final PreparedStatement relationStatement = connection.prepareStatement(relationQuery);
-            relationStatement.setString(1, home.getId());
-            relationStatement.setString(2, object.getId());
-
-            homeStatement.executeUpdate();
-            relationStatement.executeUpdate();
+            homeStatement.execute();
+            this.logger.info("Home saved: {}", home.getId());
           } catch (SQLException e) {
             this.logger.error("Error while executing query", e);
           }
@@ -165,11 +157,6 @@ public class MysqlObjectStorage implements ObjectStorage<UserModel> {
 
   @Override
   public void deleteSync(final String uuid) {
-    final String relationQuery = """
-                                 DELETE FROM SHRIMP_HOMES_USERS
-                                 WHERE USER_ID = ?
-                                 """;
-
     final String homeQuery = """
                              DELETE FROM SHRIMP_HOMES
                              WHERE HOME_ID = ?
@@ -185,9 +172,9 @@ public class MysqlObjectStorage implements ObjectStorage<UserModel> {
                                       .orElseThrow(() -> new RuntimeException("Connection is null"))
     ) {
       final Statement statement = connection.createStatement();
-      statement.addBatch(relationQuery);
       statement.addBatch(homeQuery);
       statement.addBatch(userQuery);
+      statement.executeBatch();
     } catch (SQLException e) {
       this.logger.error("Error while executing query", e);
     }

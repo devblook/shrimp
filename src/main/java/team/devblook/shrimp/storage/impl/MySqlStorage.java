@@ -77,40 +77,42 @@ public class MySqlStorage implements Storage {
   }
 
   private boolean createTable() {
+    this.logger.info("Creating table if not exists");
+    Statement statement = null;
     try (final Connection connection = this.dataSource.getConnection()) {
-      String homeTable = """
-                         CREATE TABLE IF NOT EXISTS SHRIMP_HOMES
-                         (
-                           HOME_ID       VARCHAR(36) PRIMARY KEY,
-                           HOME_NAME     VARCHAR(255) NOT NULL,
-                           HOME_POSITION VARCHAR(255) NOT NULL,
-                           CREATED_AT    TIMESTAMP    NOT NULL
-                         )""";
       String userTable = """
                          CREATE TABLE IF NOT EXISTS SHRIMP_USERS
                          (
                            USER_ID   VARCHAR(36) PRIMARY KEY,
                            USER_NAME VARCHAR(255) NOT NULL
                          )""";
-      String relationTable = """
-                             CREATE TABLE IF NOT EXISTS SHRIMP_HOMES_USERS
-                             (
-                               HOME_ID VARCHAR(36) NOT NULL,
-                               USER_ID VARCHAR(36) NOT NULL,
-                               PRIMARY KEY (HOME_ID, USER_ID),
-                               FOREIGN KEY (HOME_ID) REFERENCES SHRIMP_HOMES (HOME_ID),
-                               FOREIGN KEY (USER_ID) REFERENCES SHRIMP_USERS (USER_ID)
-                             )""";
 
-      final Statement tablesStatement = connection.createStatement();
-      tablesStatement.addBatch(homeTable);
-      tablesStatement.addBatch(userTable);
-      tablesStatement.addBatch(relationTable);
-      tablesStatement.executeBatch();
+      String homeTable = """
+                         CREATE TABLE IF NOT EXISTS SHRIMP_HOMES
+                         (
+                           HOME_ID       VARCHAR(36) PRIMARY KEY,
+                           HOME_NAME     VARCHAR(255) NOT NULL,
+                           HOME_USER_ID  VARCHAR(36) NOT NULL,
+                           HOME_POSITION VARCHAR(255) NOT NULL,
+                           CREATED_AT    TIMESTAMP    NOT NULL,
+                           FOREIGN KEY (HOME_USER_ID) REFERENCES SHRIMP_USERS (USER_ID)
+                         )""";
+      statement = connection.createStatement();
+
+      statement.executeUpdate(userTable);
+      statement.executeUpdate(homeTable);
       return true;
     } catch (SQLException e) {
       this.logger.error("Error while creating table", e);
       return false;
+    } finally {
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          this.logger.error("Error while closing statement", e);
+        }
+      }
     }
   }
 }
