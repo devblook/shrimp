@@ -15,7 +15,6 @@ public class StorageService implements Service {
   @Override
   public void start() {
     this.storage.configure();
-    this.storage.checkConnection();
   }
 
   @Override
